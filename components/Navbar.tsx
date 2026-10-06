@@ -1,46 +1,67 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+
+import {
+  AnimatePresence,
+  motion,
+} from "framer-motion";
 
 import {
   CakeSlice,
-  Menu,
-  X,
   ChevronDown,
+  Menu,
   ShoppingBag,
-  ArrowRight,
+  X,
 } from "lucide-react";
 
 /* =====================================================
-   ALIBROS BAKERY - MENU DATA
+   CART STORAGE
 ===================================================== */
 
-const menuItems = [
-  { name: "All Products", href: "/menu" },
-  // { name: "Cakes", href: "/menu?category=cakes" },
-  // { name: "Pastries", href: "/menu?category=pastries" },
-  // { name: "Cupcakes", href: "/menu?category=cupcakes" },
-  // { name: "Cookies", href: "/menu?category=cookies" },
-  // { name: "Breads", href: "/menu?category=breads" },
-  // { name: "Desserts", href: "/menu?category=desserts" },
-  // { name: "Snacks", href: "/menu?category=snacks" },
-];
+const CART_STORAGE_KEY = "alibros-cart";
 
-const cakeItems = [
-  { name: "All Cakes", href: "/cakes" },
-  // { name: "Birthday Cakes", href: "/cakes?category=birthday" },
-  // {
-  //   name: "Anniversary Cakes",
-  //   href: "/cakes?category=anniversary",
-  // },
-  // { name: "Wedding Cakes", href: "/cakes?category=wedding" },
-  // { name: "Chocolate Cakes", href: "/cakes?category=chocolate" },
-  // { name: "Photo Cakes", href: "/cakes?category=photo" },
-  // { name: "Designer Cakes", href: "/cakes?category=designer" },
-  // { name: "Bento Cakes", href: "/cakes?category=bento" },
+type StoredCartItem = {
+  id: number | string;
+  quantity?: number;
+};
+
+/* =====================================================
+   MENU DROPDOWN
+===================================================== */
+
+const menuCategories = [
+  {
+    name: "All Products",
+    href: "/menu",
+  },
+  {
+    name: "Cakes",
+    href: "/menu?category=cakes",
+  },
+  {
+    name: "Cupcakes",
+    href: "/menu?category=cupcakes",
+  },
+  {
+    name: "Pastries",
+    href: "/menu?category=pastries",
+  },
+  {
+    name: "Cookies",
+    href: "/menu?category=cookies",
+  },
+  {
+    name: "Breads",
+    href: "/menu?category=breads",
+  },
 ];
 
 /* =====================================================
@@ -50,18 +71,126 @@ const cakeItems = [
 export default function Navbar() {
   const pathname = usePathname();
 
+  /* ===================================================
+     STATES
+  =================================================== */
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mobileMenuDropdown, setMobileMenuDropdown] = useState(false);
-  const [mobileCakeDropdown, setMobileCakeDropdown] = useState(false);
+
+  const [
+    desktopMenuOpen,
+    setDesktopMenuOpen,
+  ] = useState(false);
+
+  const [
+    mobileMenuDropdown,
+    setMobileMenuDropdown,
+  ] = useState(false);
+
   const [scrolled, setScrolled] = useState(false);
 
-  // Demo cart count
-  // Later isko actual cart state/API se connect karna
-  const cartCount = 2;
+  /* ===================================================
+     CART COUNT
+  =================================================== */
 
-  /* =====================================================
-     NAVBAR SCROLL EFFECT
-  ===================================================== */
+  const [cartCount, setCartCount] = useState(0);
+
+  /* ===================================================
+     READ CART COUNT
+  =================================================== */
+
+  const updateCartCount = useCallback(() => {
+    try {
+      const savedCart =
+        localStorage.getItem(CART_STORAGE_KEY);
+
+      if (!savedCart) {
+        setCartCount(0);
+        return;
+      }
+
+      const parsedCart = JSON.parse(savedCart);
+
+      if (!Array.isArray(parsedCart)) {
+        setCartCount(0);
+        return;
+      }
+
+      const cart =
+        parsedCart as StoredCartItem[];
+
+      const totalQuantity = cart.reduce(
+        (total, item) => {
+          const quantity = Number(item.quantity);
+
+          if (
+            !Number.isFinite(quantity) ||
+            quantity <= 0
+          ) {
+            return total + 1;
+          }
+
+          return total + quantity;
+        },
+        0
+      );
+
+      setCartCount(totalQuantity);
+    } catch (error) {
+      console.error(
+        "Navbar cart count error:",
+        error
+      );
+
+      setCartCount(0);
+    }
+  }, []);
+
+  /* ===================================================
+     CART LISTENERS
+  =================================================== */
+
+  useEffect(() => {
+    updateCartCount();
+
+    const handleCartUpdated = () => {
+      updateCartCount();
+    };
+
+    const handleStorage = (
+      event: StorageEvent
+    ) => {
+      if (event.key === CART_STORAGE_KEY) {
+        updateCartCount();
+      }
+    };
+
+    window.addEventListener(
+      "cart-updated",
+      handleCartUpdated
+    );
+
+    window.addEventListener(
+      "storage",
+      handleStorage
+    );
+
+    return () => {
+      window.removeEventListener(
+        "cart-updated",
+        handleCartUpdated
+      );
+
+      window.removeEventListener(
+        "storage",
+        handleStorage
+      );
+    };
+  }, [updateCartCount]);
+
+  /* ===================================================
+     SCROLL EFFECT
+  =================================================== */
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,26 +199,37 @@ export default function Navbar() {
 
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener(
+      "scroll",
+      handleScroll,
+      {
+        passive: true,
+      }
+    );
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
     };
   }, []);
 
-  /* =====================================================
-     CLOSE MENU WHEN ROUTE CHANGES
-  ===================================================== */
+  /* ===================================================
+     ROUTE CHANGE
+  =================================================== */
 
   useEffect(() => {
     setMenuOpen(false);
     setMobileMenuDropdown(false);
-    setMobileCakeDropdown(false);
-  }, [pathname]);
+    setDesktopMenuOpen(false);
 
-  /* =====================================================
-     PREVENT BODY SCROLL
-  ===================================================== */
+    updateCartCount();
+  }, [pathname, updateCartCount]);
+
+  /* ===================================================
+     MOBILE BODY SCROLL
+  =================================================== */
 
   useEffect(() => {
     if (menuOpen) {
@@ -103,37 +243,31 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  /* =====================================================
-     ACTIVE ROUTE CHECK
-  ===================================================== */
+  /* ===================================================
+     ACTIVE LINK
+  =================================================== */
 
   const isActive = (href: string) => {
     if (href === "/") {
       return pathname === "/";
     }
 
-    return pathname.startsWith(href);
+    return pathname.startsWith(
+      href.split("?")[0]
+    );
   };
+
+  /* ===================================================
+     RETURN
+  =================================================== */
 
   return (
     <>
       {/* =================================================
-          HEADER
+          NAVBAR
       ================================================== */}
 
-      <motion.header
-        initial={{
-          y: -70,
-          opacity: 0,
-        }}
-        animate={{
-          y: 0,
-          opacity: 1,
-        }}
-        transition={{
-          duration: 0.5,
-          ease: "easeOut",
-        }}
+      <header
         className={`
           sticky
           top-0
@@ -146,41 +280,31 @@ export default function Navbar() {
           ${
             scrolled
               ? `
-                border-[#eee2dd]
-                bg-[#fffaf7]/95
-                shadow-[0_5px_30px_rgba(80,30,30,0.08)]
-                backdrop-blur-xl
-              `
+                  border-[#eadbd5]
+                  bg-[#fffaf7]/95
+                  shadow-[0_5px_25px_rgba(67,32,27,0.06)]
+                  backdrop-blur-xl
+                `
               : `
-                border-transparent
-                bg-[#fffaf7]
-              `
+                  border-[#eadbd5]/70
+                  bg-[#fffaf7]
+                `
           }
         `}
       >
-        <nav
+        <div
           className="
             mx-auto
             flex
-            h-[68px]
-            w-full
-            max-w-[1450px]
+            h-[76px]
+            max-w-[1500px]
             items-center
             justify-between
-            gap-2
-            px-3
-
-            min-[360px]:px-4
-
-            sm:h-[74px]
+            px-4
             sm:px-6
-
-            lg:h-[78px]
-            lg:px-6
-
+            lg:h-[82px]
+            lg:px-8
             xl:px-10
-
-            2xl:px-12
           "
         >
           {/* =================================================
@@ -192,94 +316,59 @@ export default function Navbar() {
             className="
               group
               flex
-              min-w-0
-              flex-1
+              shrink-0
               items-center
-              gap-2
-
-              sm:gap-3
-
-              lg:flex-none
-              lg:shrink-0
+              gap-2.5
             "
           >
-            {/* ICON */}
-
-            <motion.div
-              whileHover={{
-                scale: 1.07,
-                rotate: -6,
-              }}
-              transition={{
-                duration: 0.2,
-              }}
+            <div
               className="
                 flex
-                h-9
-                w-9
-                shrink-0
+                h-10
+                w-10
                 items-center
                 justify-center
                 rounded-full
-                bg-[#8f1728]
+                bg-[#9a1e2f]
                 text-white
-                shadow-[0_5px_15px_rgba(143,23,40,0.16)]
-
-                sm:h-10
-                sm:w-10
+                transition-transform
+                duration-300
+                group-hover:-rotate-6
               "
             >
               <CakeSlice
                 size={18}
-                strokeWidth={1.8}
-                className="sm:h-5 sm:w-5"
+                strokeWidth={1.7}
               />
-            </motion.div>
+            </div>
 
-            {/* BRAND NAME */}
-
-            <div className="min-w-0">
-              <span
+            <div>
+              <h1
                 className="
-                  block
-                  truncate
                   font-serif
-                  text-[15px]
+                  text-[22px]
                   font-semibold
-                  leading-tight
+                  leading-none
                   tracking-[-0.3px]
-                  text-[#211816]
-
-                  min-[360px]:text-[16px]
-
-                  sm:text-[19px]
-
-                  lg:text-[18px]
-
-                  xl:text-[20px]
+                  text-[#30211d]
+                  sm:text-[24px]
                 "
               >
-                Alibros Bakery
-              </span>
+                ALIBROS
+              </h1>
 
-              <span
+              <p
                 className="
-                  mt-[2px]
-                  hidden
-                  whitespace-nowrap
+                  mt-1
                   text-[7px]
+                  font-bold
                   uppercase
-                  tracking-[1.5px]
-                  text-[#9b8d88]
-
-                  sm:block
-
-                  xl:text-[8px]
-                  xl:tracking-[1.8px]
+                  tracking-[3.5px]
+                  text-[#9a1e2f]
                 "
               >
-                Freshly Baked • Made With Love
-              </span>
+                Bakery
+              </p>
             </div>
           </Link>
 
@@ -287,352 +376,306 @@ export default function Navbar() {
               DESKTOP NAVIGATION
           ================================================== */}
 
-          <div
+          <nav
             className="
               hidden
               items-center
-              gap-4
-
+              gap-1
               lg:flex
-
-              xl:gap-6
-
-              2xl:gap-7
             "
           >
             {/* HOME */}
 
-            <NavItem
-              name="Home"
+            <DesktopLink
               href="/"
-              active={pathname === "/"}
-            />
-
-            {/* MENU */}
-
-            <DesktopDropdown
-              name="Menu"
-              href="/menu"
-              active={pathname.startsWith("/menu")}
-              items={menuItems}
-            />
-
-            {/* CAKES */}
-
-            <DesktopDropdown
-              name="Cakes"
-              href="/cakes"
-              active={pathname.startsWith("/cakes")}
-              items={cakeItems}
-            />
-
-            {/* CUSTOM CAKES */}
-
-            <NavItem
-              name="Custom Cakes"
-              href="/custom-cakes"
-              active={isActive("/custom-cakes")}
-            />
+              active={isActive("/")}
+            >
+              Home
+            </DesktopLink>
 
             {/* ABOUT */}
 
-            <NavItem
-              name="About Us"
+            <DesktopLink
               href="/about"
               active={isActive("/about")}
-            />
+            >
+              About
+            </DesktopLink>
+
+            {/* =================================================
+                MENU DROPDOWN
+            ================================================== */}
+
+            <div
+              className="relative"
+              onMouseEnter={() =>
+                setDesktopMenuOpen(true)
+              }
+              onMouseLeave={() =>
+                setDesktopMenuOpen(false)
+              }
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  setDesktopMenuOpen(
+                    (prev) => !prev
+                  )
+                }
+                className={`
+                  flex
+                  items-center
+                  gap-1.5
+                  rounded-full
+                  px-4
+                  py-2.5
+                  text-[13px]
+                  font-medium
+                  transition-colors
+                  duration-300
+
+                  ${
+                    isActive("/menu")
+                      ? `
+                          bg-[#F5E9E5]
+                          text-[#9a1e2f]
+                        `
+                      : `
+                          text-[#594641]
+                          hover:bg-[#F5E9E5]
+                          hover:text-[#9a1e2f]
+                        `
+                  }
+                `}
+              >
+                Menu
+
+                <ChevronDown
+                  size={13}
+                  strokeWidth={1.8}
+                  className={`
+                    transition-transform
+                    duration-300
+                    ${
+                      desktopMenuOpen
+                        ? "rotate-180"
+                        : ""
+                    }
+                  `}
+                />
+              </button>
+
+              {/* DROPDOWN */}
+
+              <AnimatePresence>
+                {desktopMenuOpen && (
+                  <motion.div
+                    initial={{
+                      opacity: 0,
+                      y: 8,
+                      scale: 0.98,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                      scale: 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      y: 8,
+                      scale: 0.98,
+                    }}
+                    transition={{
+                      duration: 0.18,
+                    }}
+                    className="
+                      absolute
+                      left-1/2
+                      top-full
+                      z-50
+                      w-[220px]
+                      -translate-x-1/2
+                      pt-3
+                    "
+                  >
+                    <div
+                      className="
+                        overflow-hidden
+                        rounded-[20px]
+                        border
+                        border-[#eadbd5]
+                        bg-white
+                        p-2
+                        shadow-[0_18px_50px_rgba(60,30,25,0.12)]
+                      "
+                    >
+                      {menuCategories.map(
+                        (item) => (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            onClick={() =>
+                              setDesktopMenuOpen(
+                                false
+                              )
+                            }
+                            className="
+                              flex
+                              items-center
+                              justify-between
+                              rounded-[13px]
+                              px-4
+                              py-3
+                              text-[12px]
+                              font-medium
+                              text-[#594641]
+                              transition-colors
+                              duration-200
+                              hover:bg-[#F5E9E5]
+                              hover:text-[#9a1e2f]
+                            "
+                          >
+                            {item.name}
+
+                            <span className="text-[13px]">
+                              →
+                            </span>
+                          </Link>
+                        )
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* =================================================
+                CUSTOM CAKES
+            ================================================== */}
+
+            <DesktopLink
+              href="/custom-cakes"
+              active={isActive("/custom-cakes")}
+            >
+              Custom Cakes
+            </DesktopLink>
 
             {/* CONTACT */}
 
-            <NavItem
-              name="Contact"
+            <DesktopLink
               href="/contact"
               active={isActive("/contact")}
-            />
-          </div>
+            >
+              Contact
+            </DesktopLink>
+          </nav>
 
           {/* =================================================
-              DESKTOP RIGHT
+              RIGHT ACTIONS
           ================================================== */}
 
           <div
             className="
-              hidden
-              shrink-0
+              flex
               items-center
               gap-2
-
-              lg:flex
-
-              xl:gap-3
             "
           >
             {/* CART */}
 
             <Link
               href="/cart"
-              aria-label="Shopping cart"
+              aria-label={`Shopping cart with ${cartCount} items`}
               className="
                 group
                 relative
                 flex
-                h-10
-                w-10
-                shrink-0
+                h-11
+                w-11
                 items-center
                 justify-center
                 rounded-full
                 border
-                border-[#eadfda]
+                border-[#eadbd5]
                 bg-white
-                text-[#493f3c]
-                shadow-[0_4px_15px_rgba(70,30,30,0.04)]
+                text-[#493630]
                 transition-all
                 duration-300
-
-                hover:-translate-y-[2px]
-                hover:border-[#8f1728]
-                hover:text-[#8f1728]
-
-                xl:h-11
-                xl:w-11
+                hover:border-[#9a1e2f]
+                hover:bg-[#9a1e2f]
+                hover:text-white
               "
             >
               <ShoppingBag
                 size={18}
-                strokeWidth={1.8}
+                strokeWidth={1.7}
               />
 
               {cartCount > 0 && (
                 <span
                   className="
                     absolute
-                    -right-[3px]
-                    -top-[4px]
+                    -right-1
+                    -top-1
                     flex
-                    h-[18px]
-                    min-w-[18px]
+                    h-[20px]
+                    min-w-[20px]
                     items-center
                     justify-center
                     rounded-full
                     border-2
                     border-[#fffaf7]
-                    bg-[#8f1728]
+                    bg-[#9a1e2f]
                     px-1
                     text-[8px]
                     font-bold
                     text-white
+                    group-hover:border-[#9a1e2f]
+                    group-hover:bg-white
+                    group-hover:text-[#9a1e2f]
                   "
                 >
-                  {cartCount > 99 ? "99+" : cartCount}
-                </span>
-              )}
-            </Link>
-
-            {/* ORDER NOW */}
-
-            <Link
-              href="/order"
-              className="
-                group
-                inline-flex
-                items-center
-                gap-1.5
-                whitespace-nowrap
-                rounded-full
-                bg-[#8f1728]
-                px-4
-                py-[10px]
-                text-[12px]
-                font-semibold
-                text-white
-                shadow-[0_8px_20px_rgba(143,23,40,0.18)]
-                transition-all
-                duration-300
-
-                hover:-translate-y-[2px]
-                hover:bg-[#761221]
-
-                xl:gap-2
-                xl:px-6
-                xl:py-[11px]
-                xl:text-[13px]
-              "
-            >
-              Order Now
-
-              <ArrowRight
-                size={14}
-                className="
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-1
-                "
-              />
-            </Link>
-          </div>
-
-          {/* =================================================
-              MOBILE RIGHT
-          ================================================== */}
-
-          <div
-            className="
-              flex
-              shrink-0
-              items-center
-              gap-1.5
-
-              min-[360px]:gap-2
-
-              lg:hidden
-            "
-          >
-            {/* MOBILE CART */}
-
-            <Link
-              href="/cart"
-              aria-label="Shopping cart"
-              className="
-                relative
-                flex
-                h-9
-                w-9
-                shrink-0
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-[#eadfda]
-                bg-white
-                text-[#493f3c]
-                shadow-[0_3px_10px_rgba(70,30,30,0.04)]
-
-                sm:h-10
-                sm:w-10
-              "
-            >
-              <ShoppingBag
-                size={17}
-                strokeWidth={1.8}
-              />
-
-              {cartCount > 0 && (
-                <span
-                  className="
-                    absolute
-                    -right-[3px]
-                    -top-[3px]
-                    flex
-                    h-[16px]
-                    min-w-[16px]
-                    items-center
-                    justify-center
-                    rounded-full
-                    border
-                    border-[#fffaf7]
-                    bg-[#8f1728]
-                    px-[3px]
-                    text-[7px]
-                    font-bold
-                    text-white
-
-                    sm:h-[17px]
-                    sm:min-w-[17px]
-                    sm:text-[8px]
-                  "
-                >
-                  {cartCount > 99 ? "99+" : cartCount}
+                  {cartCount > 99
+                    ? "99+"
+                    : cartCount}
                 </span>
               )}
             </Link>
 
             {/* MOBILE MENU BUTTON */}
 
-            <motion.button
+            <button
               type="button"
-              whileTap={{
-                scale: 0.9,
-              }}
-              onClick={() => {
-                setMenuOpen((prev) => !prev);
-              }}
-              aria-label={
-                menuOpen
-                  ? "Close navigation menu"
-                  : "Open navigation menu"
+              onClick={() =>
+                setMenuOpen(true)
               }
-              aria-expanded={menuOpen}
+              aria-label="Open navigation menu"
               className="
                 flex
-                h-9
-                w-9
-                shrink-0
+                h-11
+                w-11
                 items-center
                 justify-center
                 rounded-full
                 border
-                border-[#eadfda]
+                border-[#eadbd5]
                 bg-white
-                text-[#8f1728]
-                shadow-[0_3px_10px_rgba(70,30,30,0.04)]
-
-                sm:h-10
-                sm:w-10
+                text-[#493630]
+                transition-colors
+                duration-300
+                hover:border-[#9a1e2f]
+                hover:text-[#9a1e2f]
+                lg:hidden
               "
             >
-              <AnimatePresence
-                mode="wait"
-                initial={false}
-              >
-                {menuOpen ? (
-                  <motion.span
-                    key="close"
-                    initial={{
-                      opacity: 0,
-                      rotate: -90,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      rotate: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      rotate: 90,
-                    }}
-                    transition={{
-                      duration: 0.15,
-                    }}
-                  >
-                    <X size={19} />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="menu"
-                    initial={{
-                      opacity: 0,
-                      rotate: 90,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      rotate: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      rotate: -90,
-                    }}
-                    transition={{
-                      duration: 0.15,
-                    }}
-                  >
-                    <Menu size={20} />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
+              <Menu
+                size={19}
+                strokeWidth={1.7}
+              />
+            </button>
           </div>
-        </nav>
-      </motion.header>
+        </div>
+      </header>
 
       {/* =================================================
           MOBILE MENU
@@ -641,9 +684,11 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <>
-            {/* OVERLAY */}
+            {/* BACKDROP */}
 
-            <motion.div
+            <motion.button
+              type="button"
+              aria-label="Close menu"
               initial={{
                 opacity: 0,
               }}
@@ -653,223 +698,387 @@ export default function Navbar() {
               exit={{
                 opacity: 0,
               }}
-              transition={{
-                duration: 0.2,
-              }}
-              onClick={() => setMenuOpen(false)}
+              onClick={() =>
+                setMenuOpen(false)
+              }
               className="
                 fixed
                 inset-0
-                z-40
-                bg-black/25
+                z-[60]
+                bg-black/35
                 backdrop-blur-[2px]
-
                 lg:hidden
               "
             />
 
-            {/* MOBILE MENU BOX */}
+            {/* MOBILE DRAWER */}
 
-            <motion.div
+            <motion.aside
               initial={{
-                opacity: 0,
-                y: -15,
-                scale: 0.98,
+                x: "100%",
               }}
               animate={{
-                opacity: 1,
-                y: 0,
-                scale: 1,
+                x: 0,
               }}
               exit={{
-                opacity: 0,
-                y: -10,
-                scale: 0.98,
+                x: "100%",
               }}
               transition={{
-                duration: 0.22,
-                ease: "easeOut",
+                type: "spring",
+                stiffness: 320,
+                damping: 32,
               }}
               className="
                 fixed
-                left-3
-                right-3
-                top-[76px]
-                z-50
-                max-h-[calc(100dvh-90px)]
-                overflow-y-auto
-                overscroll-contain
-                rounded-[18px]
-                border
-                border-[#efe3de]
+                bottom-0
+                right-0
+                top-0
+                z-[70]
+                flex
+                w-[88%]
+                max-w-[380px]
+                flex-col
                 bg-[#fffaf7]
-                p-3
-                shadow-[0_20px_60px_rgba(50,20,20,0.18)]
-
-                min-[360px]:left-4
-                min-[360px]:right-4
-
-                sm:top-[82px]
-                sm:rounded-[22px]
-                sm:p-4
-
+                shadow-[-15px_0_50px_rgba(50,25,20,0.15)]
                 lg:hidden
               "
             >
-              {/* MOBILE BRAND */}
+              {/* MOBILE HEADER */}
 
               <div
                 className="
-                  mb-3
                   flex
+                  h-[76px]
+                  shrink-0
                   items-center
-                  gap-3
+                  justify-between
                   border-b
-                  border-[#eee2dd]
-                  px-2
-                  pb-3
+                  border-[#eadbd5]
+                  px-5
                 "
               >
-                <div
+                <Link
+                  href="/"
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
                   className="
                     flex
-                    h-9
-                    w-9
-                    shrink-0
+                    items-center
+                    gap-2.5
+                  "
+                >
+                  <div
+                    className="
+                      flex
+                      h-9
+                      w-9
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-[#9a1e2f]
+                      text-white
+                    "
+                  >
+                    <CakeSlice
+                      size={16}
+                      strokeWidth={1.7}
+                    />
+                  </div>
+
+                  <div>
+                    <h2
+                      className="
+                        font-serif
+                        text-[20px]
+                        font-semibold
+                        leading-none
+                        text-[#30211d]
+                      "
+                    >
+                      ALIBROS
+                    </h2>
+
+                    <p
+                      className="
+                        mt-1
+                        text-[6px]
+                        font-bold
+                        uppercase
+                        tracking-[3px]
+                        text-[#9a1e2f]
+                      "
+                    >
+                      Bakery
+                    </p>
+                  </div>
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                  className="
+                    flex
+                    h-10
+                    w-10
                     items-center
                     justify-center
                     rounded-full
-                    bg-[#8f1728]
-                    text-white
+                    border
+                    border-[#eadbd5]
+                    bg-white
+                    text-[#493630]
+                    transition-colors
+                    hover:border-[#9a1e2f]
+                    hover:text-[#9a1e2f]
                   "
                 >
-                  <CakeSlice size={17} />
-                </div>
-
-                <div>
-                  <p
-                    className="
-                      font-serif
-                      text-[16px]
-                      font-semibold
-                      text-[#211816]
-                    "
-                  >
-                    Alibros Bakery
-                  </p>
-
-                  <p
-                    className="
-                      mt-[2px]
-                      text-[7px]
-                      uppercase
-                      tracking-[1.4px]
-                      text-[#9b8d88]
-                    "
-                  >
-                    Freshly Baked • Made With Love
-                  </p>
-                </div>
+                  <X
+                    size={18}
+                    strokeWidth={1.7}
+                  />
+                </button>
               </div>
 
-              <div className="flex flex-col gap-1">
+              {/* =================================================
+                  MOBILE LINKS
+              ================================================== */}
+
+              <div
+                className="
+                  flex-1
+                  overflow-y-auto
+                  px-4
+                  py-5
+                "
+              >
                 {/* HOME */}
 
                 <MobileLink
-                  name="Home"
                   href="/"
-                  active={pathname === "/"}
-                  onClick={() => setMenuOpen(false)}
-                />
-
-                {/* MENU */}
-
-                <MobileDropdown
-                  name="Menu"
-                  active={pathname.startsWith("/menu")}
-                  open={mobileMenuDropdown}
-                  onToggle={() => {
-                    setMobileMenuDropdown((prev) => !prev);
-
-                    if (!mobileMenuDropdown) {
-                      setMobileCakeDropdown(false);
-                    }
-                  }}
-                  items={menuItems}
-                  onNavigate={() => setMenuOpen(false)}
-                />
-
-                {/* CAKES */}
-
-                <MobileDropdown
-                  name="Cakes"
-                  active={pathname.startsWith("/cakes")}
-                  open={mobileCakeDropdown}
-                  onToggle={() => {
-                    setMobileCakeDropdown((prev) => !prev);
-
-                    if (!mobileCakeDropdown) {
-                      setMobileMenuDropdown(false);
-                    }
-                  }}
-                  items={cakeItems}
-                  onNavigate={() => setMenuOpen(false)}
-                />
-
-                {/* CUSTOM CAKES */}
-
-                <MobileLink
-                  name="Custom Cakes"
-                  href="/custom-cakes"
-                  active={isActive("/custom-cakes")}
-                  onClick={() => setMenuOpen(false)}
-                />
+                  active={isActive("/")}
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  Home
+                </MobileLink>
 
                 {/* ABOUT */}
 
                 <MobileLink
-                  name="About Us"
                   href="/about"
                   active={isActive("/about")}
-                  onClick={() => setMenuOpen(false)}
-                />
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  About
+                </MobileLink>
+
+                {/* =================================================
+                    MOBILE MENU DROPDOWN
+                ================================================== */}
+
+                <div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setMobileMenuDropdown(
+                        (prev) => !prev
+                      )
+                    }
+                    className={`
+                      flex
+                      w-full
+                      items-center
+                      justify-between
+                      rounded-xl
+                      px-4
+                      py-3.5
+                      text-[14px]
+                      font-medium
+                      transition-colors
+
+                      ${
+                        isActive("/menu")
+                          ? `
+                              bg-[#F5E9E5]
+                              text-[#9a1e2f]
+                            `
+                          : `
+                              text-[#403633]
+                              hover:bg-[#F5E9E5]
+                              hover:text-[#9a1e2f]
+                            `
+                      }
+                    `}
+                  >
+                    Menu
+
+                    <ChevronDown
+                      size={16}
+                      className={`
+                        transition-transform
+                        duration-300
+
+                        ${
+                          mobileMenuDropdown
+                            ? "rotate-180"
+                            : ""
+                        }
+                      `}
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {mobileMenuDropdown && (
+                      <motion.div
+                        initial={{
+                          opacity: 0,
+                          height: 0,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          height: "auto",
+                        }}
+                        exit={{
+                          opacity: 0,
+                          height: 0,
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <div
+                          className="
+                            ml-4
+                            mt-1
+                            space-y-1
+                            border-l
+                            border-[#eadbd5]
+                            py-2
+                            pl-3
+                          "
+                        >
+                          {menuCategories.map(
+                            (item) => (
+                              <Link
+                                key={
+                                  item.name
+                                }
+                                href={
+                                  item.href
+                                }
+                                onClick={() =>
+                                  setMenuOpen(
+                                    false
+                                  )
+                                }
+                                className="
+                                  block
+                                  rounded-lg
+                                  px-3
+                                  py-2.5
+                                  text-[12px]
+                                  font-medium
+                                  text-[#75625c]
+                                  transition-colors
+                                  hover:bg-[#F5E9E5]
+                                  hover:text-[#9a1e2f]
+                                "
+                              >
+                                {item.name}
+                              </Link>
+                            )
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* =================================================
+                    CUSTOM CAKES
+                ================================================== */}
+
+                <MobileLink
+                  href="/custom-cakes"
+                  active={isActive(
+                    "/custom-cakes"
+                  )}
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  Custom Cakes
+                </MobileLink>
 
                 {/* CONTACT */}
 
                 <MobileLink
-                  name="Contact"
                   href="/contact"
                   active={isActive("/contact")}
-                  onClick={() => setMenuOpen(false)}
-                />
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  Contact
+                </MobileLink>
 
                 {/* DIVIDER */}
 
-                <div className="my-2 h-px bg-[#eee2dd]" />
+                <div
+                  className="
+                    my-3
+                    h-px
+                    bg-[#eee2dd]
+                  "
+                />
 
-                {/* CART */}
+                {/* MY CART */}
 
                 <Link
                   href="/cart"
-                  onClick={() => setMenuOpen(false)}
-                  className="
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                  className={`
                     flex
                     items-center
                     justify-between
                     rounded-xl
                     px-4
-                    py-3
+                    py-3.5
                     text-[14px]
                     font-medium
-                    text-[#403633]
                     transition-colors
 
-                    hover:bg-[#f9efeb]
-                    hover:text-[#8f1728]
-                  "
+                    ${
+                      pathname === "/cart"
+                        ? `
+                            bg-[#F5E9E5]
+                            text-[#9a1e2f]
+                          `
+                        : `
+                            text-[#403633]
+                            hover:bg-[#F5E9E5]
+                            hover:text-[#9a1e2f]
+                          `
+                    }
+                  `}
                 >
-                  <span className="flex items-center gap-2.5">
-                    <ShoppingBag size={17} />
+                  <span
+                    className="
+                      flex
+                      items-center
+                      gap-2.5
+                    "
+                  >
+                    <ShoppingBag
+                      size={17}
+                      strokeWidth={1.7}
+                    />
 
                     My Cart
                   </span>
@@ -878,8 +1087,8 @@ export default function Navbar() {
                     <span
                       className="
                         flex
-                        h-6
-                        min-w-6
+                        h-7
+                        min-w-7
                         items-center
                         justify-center
                         rounded-full
@@ -890,52 +1099,39 @@ export default function Navbar() {
                         text-[#8f1728]
                       "
                     >
-                      {cartCount}
+                      {cartCount > 99
+                        ? "99+"
+                        : cartCount}
                     </span>
                   )}
                 </Link>
+              </div>
 
-                {/* ORDER */}
+              {/* MOBILE BOTTOM */}
 
-                <Link
-                  href="/order"
-                  onClick={() => setMenuOpen(false)}
+              <div
+                className="
+                  shrink-0
+                  border-t
+                  border-[#eadbd5]
+                  bg-[#F5E9E5]/50
+                  px-5
+                  py-4
+                "
+              >
+                <p
                   className="
-                    group
-                    mt-2
-                    flex
-                    w-full
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-full
-                    bg-[#8f1728]
-                    px-5
-                    py-3
-                    text-[13px]
-                    font-semibold
-                    text-white
-                    shadow-[0_8px_20px_rgba(143,23,40,0.15)]
-                    transition-all
-
-                    hover:bg-[#761221]
-
-                    sm:py-3.5
-                    sm:text-sm
+                    text-center
+                    text-[10px]
+                    leading-5
+                    text-[#8a7771]
                   "
                 >
-                  Order Now
-
-                  <ArrowRight
-                    size={15}
-                    className="
-                      transition-transform
-                      group-hover:translate-x-1
-                    "
-                  />
-                </Link>
+                  Freshly baked with care at
+                  Alibros Bakery.
+                </p>
               </div>
-            </motion.div>
+            </motion.aside>
           </>
         )}
       </AnimatePresence>
@@ -944,431 +1140,92 @@ export default function Navbar() {
 }
 
 /* =====================================================
-   DESKTOP NORMAL LINK
+   DESKTOP LINK
 ===================================================== */
 
-type NavItemProps = {
-  name: string;
-  href: string;
-  active: boolean;
-};
-
-function NavItem({
-  name,
+function DesktopLink({
   href,
   active,
-}: NavItemProps) {
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       href={href}
-      className="relative py-3"
+      className={`
+        rounded-full
+        px-4
+        py-2.5
+        text-[13px]
+        font-medium
+        transition-colors
+        duration-300
+
+        ${
+          active
+            ? `
+                bg-[#F5E9E5]
+                text-[#9a1e2f]
+              `
+            : `
+                text-[#594641]
+                hover:bg-[#F5E9E5]
+                hover:text-[#9a1e2f]
+              `
+        }
+      `}
     >
-      <motion.span
-        whileHover={{
-          y: -2,
-        }}
-        transition={{
-          duration: 0.2,
-        }}
-        className={`
-          whitespace-nowrap
-          text-[12px]
-          font-medium
-          transition-colors
-          duration-300
-
-          xl:text-[13px]
-
-          2xl:text-[14px]
-
-          ${
-            active
-              ? "text-[#8f1728]"
-              : "text-[#493f3c] hover:text-[#8f1728]"
-          }
-        `}
-      >
-        {name}
-      </motion.span>
-
-      {active && (
-        <motion.span
-          layoutId="navbar-active"
-          className="
-            absolute
-            bottom-[4px]
-            left-0
-            h-[2px]
-            w-full
-            rounded-full
-            bg-[#8f1728]
-          "
-          transition={{
-            type: "spring",
-            stiffness: 380,
-            damping: 30,
-          }}
-        />
-      )}
+      {children}
     </Link>
   );
 }
 
 /* =====================================================
-   TYPES
+   MOBILE LINK
 ===================================================== */
-
-type DropdownItem = {
-  name: string;
-  href: string;
-};
-
-type DesktopDropdownProps = {
-  name: string;
-  href: string;
-  active: boolean;
-  items: DropdownItem[];
-};
-
-/* =====================================================
-   DESKTOP DROPDOWN
-===================================================== */
-
-function DesktopDropdown({
-  name,
-  href,
-  active,
-  items,
-}: DesktopDropdownProps) {
-  return (
-    <div className="group relative">
-      {/* DROPDOWN TITLE */}
-
-      <Link
-        href={href}
-        className="
-          relative
-          flex
-          items-center
-          gap-1
-          py-3
-        "
-      >
-        <span
-          className={`
-            whitespace-nowrap
-            text-[12px]
-            font-medium
-            transition-colors
-            duration-300
-
-            xl:text-[13px]
-
-            2xl:text-[14px]
-
-            ${
-              active
-                ? "text-[#8f1728]"
-                : "text-[#493f3c] group-hover:text-[#8f1728]"
-            }
-          `}
-        >
-          {name}
-        </span>
-
-        <ChevronDown
-          size={13}
-          className="
-            transition-transform
-            duration-300
-            group-hover:rotate-180
-          "
-        />
-
-        {active && (
-          <motion.span
-            layoutId="navbar-active"
-            className="
-              absolute
-              bottom-[4px]
-              left-0
-              h-[2px]
-              w-full
-              rounded-full
-              bg-[#8f1728]
-            "
-          />
-        )}
-      </Link>
-
-      {/* DROPDOWN BOX */}
-
-      <div
-        className="
-          invisible
-          absolute
-          left-1/2
-          top-full
-          w-[235px]
-          -translate-x-1/2
-          translate-y-2
-          pt-3
-          opacity-0
-          transition-all
-          duration-200
-
-          group-hover:visible
-          group-hover:translate-y-0
-          group-hover:opacity-100
-        "
-      >
-        <div
-          className="
-            overflow-hidden
-            rounded-[18px]
-            border
-            border-[#eee1dc]
-            bg-[#fffaf7]
-            p-2
-            shadow-[0_18px_50px_rgba(60,20,20,0.13)]
-          "
-        >
-          {items.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="
-                group/item
-                flex
-                items-center
-                justify-between
-                rounded-[12px]
-                px-4
-                py-[11px]
-                text-[13px]
-                font-medium
-                text-[#493f3c]
-                transition-all
-                duration-200
-
-                hover:bg-[#f8e8e9]
-                hover:pl-5
-                hover:text-[#8f1728]
-              "
-            >
-              <span>{item.name}</span>
-
-              <ArrowRight
-                size={13}
-                className="
-                  -translate-x-2
-                  opacity-0
-                  transition-all
-                  duration-200
-
-                  group-hover/item:translate-x-0
-                  group-hover/item:opacity-100
-                "
-              />
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* =====================================================
-   MOBILE NORMAL LINK
-===================================================== */
-
-type MobileLinkProps = {
-  name: string;
-  href: string;
-  active: boolean;
-  onClick: () => void;
-};
 
 function MobileLink({
-  name,
   href,
   active,
   onClick,
-}: MobileLinkProps) {
+  children,
+}: {
+  href: string;
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       href={href}
       onClick={onClick}
       className={`
-        flex
-        items-center
-        justify-between
+        block
         rounded-xl
         px-4
-        py-3
+        py-3.5
         text-[14px]
         font-medium
         transition-colors
 
-        sm:py-3.5
-        sm:text-[15px]
-
         ${
           active
-            ? "bg-[#f8e8e9] text-[#8f1728]"
-            : "text-[#403633] hover:bg-[#f9efeb] hover:text-[#8f1728]"
+            ? `
+                bg-[#F5E9E5]
+                text-[#9a1e2f]
+              `
+            : `
+                text-[#403633]
+                hover:bg-[#F5E9E5]
+                hover:text-[#9a1e2f]
+              `
         }
       `}
     >
-      <span>{name}</span>
-
-      {active && (
-        <span
-          className="
-            h-2
-            w-2
-            shrink-0
-            rounded-full
-            bg-[#8f1728]
-          "
-        />
-      )}
+      {children}
     </Link>
-  );
-}
-
-/* =====================================================
-   MOBILE DROPDOWN
-===================================================== */
-
-type MobileDropdownProps = {
-  name: string;
-  active: boolean;
-  open: boolean;
-  onToggle: () => void;
-  items: DropdownItem[];
-  onNavigate: () => void;
-};
-
-function MobileDropdown({
-  name,
-  active,
-  open,
-  onToggle,
-  items,
-  onNavigate,
-}: MobileDropdownProps) {
-  return (
-    <div>
-      {/* BUTTON */}
-
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={open}
-        className={`
-          flex
-          w-full
-          items-center
-          justify-between
-          rounded-xl
-          px-4
-          py-3
-          text-left
-          text-[14px]
-          font-medium
-          transition-colors
-
-          sm:py-3.5
-          sm:text-[15px]
-
-          ${
-            active
-              ? "bg-[#f8e8e9] text-[#8f1728]"
-              : "text-[#403633] hover:bg-[#f9efeb] hover:text-[#8f1728]"
-          }
-        `}
-      >
-        <span>{name}</span>
-
-        <ChevronDown
-          size={16}
-          className={`
-            shrink-0
-            transition-transform
-            duration-300
-
-            ${open ? "rotate-180" : ""}
-          `}
-        />
-      </button>
-
-      {/* ITEMS */}
-
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{
-              height: 0,
-              opacity: 0,
-            }}
-            animate={{
-              height: "auto",
-              opacity: 1,
-            }}
-            exit={{
-              height: 0,
-              opacity: 0,
-            }}
-            transition={{
-              duration: 0.22,
-            }}
-            className="overflow-hidden"
-          >
-            <div
-              className="
-                ml-3
-                mt-1
-                space-y-1
-                border-l
-                border-[#eadbd5]
-                pb-2
-                pl-3
-                pt-1
-              "
-            >
-              {items.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={onNavigate}
-                  className="
-                    flex
-                    items-center
-                    justify-between
-                    rounded-lg
-                    px-3
-                    py-2.5
-                    text-[13px]
-                    text-[#695b56]
-                    transition-colors
-
-                    hover:bg-[#f8e8e9]
-                    hover:text-[#8f1728]
-                  "
-                >
-                  <span>{item.name}</span>
-
-                  <ArrowRight
-                    size={12}
-                    className="shrink-0"
-                  />
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
   );
 }

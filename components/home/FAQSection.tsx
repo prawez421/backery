@@ -3,14 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
+
 import {
   ArrowUpRight,
   CakeSlice,
-  ChevronDown,
   CircleHelp,
   Mail,
   MessageCircle,
-  Sparkles,
 } from "lucide-react";
 
 /* =====================================================
@@ -77,14 +76,17 @@ const faqs = [
 ];
 
 /* =====================================================
-   MAIN COMPONENT
+   COMPONENT
 ===================================================== */
 
 export default function FAQSection() {
-  const [activeFaq, setActiveFaq] = useState<number | null>(1);
+  const [activeFaq, setActiveFaq] =
+    useState<number | null>(null);
 
   const toggleFaq = (id: number) => {
-    setActiveFaq((current) => (current === id ? null : id));
+    setActiveFaq((current) =>
+      current === id ? null : id
+    );
   };
 
   return (
@@ -98,7 +100,9 @@ export default function FAQSection() {
         lg:py-20
       "
     >
-      {/* BACKGROUND DECORATION */}
+      {/* =================================================
+          BACKGROUND DECORATION
+      ================================================== */}
 
       <div
         className="
@@ -128,6 +132,10 @@ export default function FAQSection() {
         "
       />
 
+      {/* =================================================
+          CONTAINER
+      ================================================== */}
+
       <div
         className="
           relative
@@ -144,8 +152,10 @@ export default function FAQSection() {
             grid
             grid-cols-1
             gap-10
+
             lg:grid-cols-[0.72fr_1.28fr]
             lg:gap-14
+
             xl:gap-20
           "
         >
@@ -169,9 +179,15 @@ export default function FAQSection() {
             transition={{
               duration: 0.65,
             }}
-            className="lg:sticky lg:top-[120px] lg:self-start"
+            className="
+              lg:sticky
+              lg:top-[120px]
+              lg:self-start
+            "
           >
-            {/* LABEL */}
+            {/* =============================================
+                SMALL LABEL
+            ============================================== */}
 
             <div
               className="
@@ -181,14 +197,15 @@ export default function FAQSection() {
                 gap-2.5
                 rounded-full
                 border
-                border-[#ead8d2]
-                bg-[#fff7f4]
+                border-[#e3cfca]
+                bg-[#F5E9E5]
                 px-4
                 py-2
               "
             >
               <CircleHelp
                 size={12}
+                strokeWidth={1.8}
                 className="text-[#9a1e2f]"
               />
 
@@ -205,7 +222,9 @@ export default function FAQSection() {
               </span>
             </div>
 
-            {/* HEADING */}
+            {/* =============================================
+                HEADING
+            ============================================== */}
 
             <h2
               className="
@@ -229,7 +248,9 @@ export default function FAQSection() {
               </span>
             </h2>
 
-            {/* DESCRIPTION */}
+            {/* =============================================
+                DESCRIPTION
+            ============================================== */}
 
             <p
               className="
@@ -242,19 +263,21 @@ export default function FAQSection() {
                 sm:text-[12px]
               "
             >
-              Find quick answers about custom cakes, orders,
-              delivery and bakery enquiries. If you still need
-              help, you can send us a message.
+              Find quick answers about custom cakes,
+              orders, delivery and bakery enquiries.
+              If you still need help, you can send us
+              a message.
             </p>
 
-            {/* =========================================
+            {/* =============================================
                 HELP CARD
-            ========================================== */}
+            ============================================== */}
 
             <div
               className="
                 relative
                 mt-8
+                max-w-[440px]
                 overflow-hidden
                 rounded-[24px]
                 bg-[#281916]
@@ -293,6 +316,8 @@ export default function FAQSection() {
               />
 
               <div className="relative z-10">
+                {/* ICON */}
+
                 <div
                   className="
                     flex
@@ -305,8 +330,13 @@ export default function FAQSection() {
                     text-white
                   "
                 >
-                  <MessageCircle size={17} />
+                  <MessageCircle
+                    size={17}
+                    strokeWidth={1.7}
+                  />
                 </div>
+
+                {/* SMALL TITLE */}
 
                 <p
                   className="
@@ -321,6 +351,8 @@ export default function FAQSection() {
                   Still Have A Question?
                 </p>
 
+                {/* TITLE */}
+
                 <h3
                   className="
                     mt-2
@@ -331,10 +363,13 @@ export default function FAQSection() {
                   "
                 >
                   We&apos;re happy to{" "}
+
                   <span className="italic text-[#e8aaa7]">
                     help.
                   </span>
                 </h3>
+
+                {/* DESCRIPTION */}
 
                 <p
                   className="
@@ -342,12 +377,15 @@ export default function FAQSection() {
                     max-w-[320px]
                     text-[9px]
                     leading-[1.8]
-                    text-white/45
+                    text-white/50
                   "
                 >
-                  Send your question through our contact form
-                  and include any useful order or cake details.
+                  Send your question through our contact
+                  form and include any useful order or
+                  cake details.
                 </p>
+
+                {/* BUTTON */}
 
                 <Link
                   href="#contact-form"
@@ -366,6 +404,7 @@ export default function FAQSection() {
                     text-[9px]
                     font-bold
                     text-white
+
                     transition-all
                     duration-300
 
@@ -391,7 +430,7 @@ export default function FAQSection() {
           </motion.div>
 
           {/* =================================================
-              RIGHT FAQ LIST
+              RIGHT SIDE
           ================================================== */}
 
           <motion.div
@@ -411,92 +450,83 @@ export default function FAQSection() {
               duration: 0.65,
             }}
           >
-            {/* TOP INFO */}
+            {/* =============================================
+                QUICK ANSWERS
+            ============================================== */}
 
             <div
               className="
                 mb-4
                 flex
                 items-center
-                justify-between
-                gap-4
+                gap-3
                 rounded-[18px]
                 border
-                border-[#eadbd5]
-                bg-[#faf4f1]
+                border-[#dfc9c3]
+                bg-[#F5E9E5]
                 px-5
                 py-4
               "
             >
-              <div className="flex items-center gap-3">
-                <div
-                  className="
-                    flex
-                    h-9
-                    w-9
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-[#f0dcdc]
-                    text-[#9a1e2f]
-                  "
-                >
-                  <Sparkles size={14} />
-                </div>
-
-                <div>
-                  <p
-                    className="
-                      text-[9px]
-                      font-semibold
-                      text-[#45322d]
-                    "
-                  >
-                    Quick Answers
-                  </p>
-
-                  <p
-                    className="
-                      mt-0.5
-                      text-[7px]
-                      text-[#998680]
-                    "
-                  >
-                    Click a question to see the answer.
-                  </p>
-                </div>
-              </div>
-
               <div
                 className="
-                  hidden
+                  flex
+                  h-9
+                  w-9
+                  shrink-0
                   items-center
-                  gap-2
-                  text-[7px]
-                  font-bold
-                  uppercase
-                  tracking-[1.5px]
-                  text-[#9a1e2f]
-                  sm:flex
+                  justify-center
+                  rounded-full
+                  bg-[#9a1e2f]
+                  text-white
+                  shadow-[0_5px_15px_rgba(154,30,47,0.15)]
                 "
               >
-                <CakeSlice size={12} />
-                Alibros Bakery
+                <CircleHelp
+                  size={15}
+                  strokeWidth={1.8}
+                />
+              </div>
+
+              <div>
+                <p
+                  className="
+                    font-serif
+                    text-[17px]
+                    font-semibold
+                    text-[#35231f]
+                  "
+                >
+                  Quick Answers
+                </p>
+
+                <p
+                  className="
+                    mt-0.5
+                    text-[9px]
+                    text-[#8b746e]
+                  "
+                >
+                  Click a question to see the answer.
+                </p>
               </div>
             </div>
 
-            {/* FAQ ACCORDION */}
+            {/* =============================================
+                FAQ ACCORDION
+            ============================================== */}
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {faqs.map((faq, index) => {
-                const isOpen = activeFaq === faq.id;
+                const isOpen =
+                  activeFaq === faq.id;
 
                 return (
                   <motion.div
                     key={faq.id}
                     initial={{
                       opacity: 0,
-                      y: 20,
+                      y: 15,
                     }}
                     whileInView={{
                       opacity: 1,
@@ -506,12 +536,12 @@ export default function FAQSection() {
                       once: true,
                     }}
                     transition={{
-                      duration: 0.45,
+                      duration: 0.4,
                       delay: index * 0.04,
                     }}
                     className={`
                       overflow-hidden
-                      rounded-[20px]
+                      rounded-[18px]
                       border
                       transition-all
                       duration-300
@@ -519,41 +549,94 @@ export default function FAQSection() {
                       ${
                         isOpen
                           ? `
-                            border-[#dcbdb7]
-                            bg-[#fff9f6]
-                            shadow-[0_12px_35px_rgba(70,30,30,0.06)]
-                          `
+                              border-[#d7b6ae]
+                              bg-[#fffaf8]
+                              shadow-[0_10px_30px_rgba(80,40,35,0.05)]
+                            `
                           : `
-                            border-[#eadbd5]
-                            bg-white
-                            hover:border-[#ddc4be]
-                          `
+                              border-[#eadbd6]
+                              bg-white
+                              hover:border-[#d9bfb9]
+                            `
                       }
                     `}
                   >
-                    {/* QUESTION BUTTON */}
+                    {/* =====================================
+                        QUESTION BUTTON
+                    ====================================== */}
 
                     <button
                       type="button"
-                      onClick={() => toggleFaq(faq.id)}
+                      onClick={() =>
+                        toggleFaq(faq.id)
+                      }
                       aria-expanded={isOpen}
                       className="
+                        group
                         flex
                         w-full
                         items-center
                         gap-4
-                        px-4
-                        py-4
+                        px-5
+                        py-[18px]
                         text-left
 
-                        sm:px-5
+                        sm:px-6
                         sm:py-5
                       "
                     >
-                      {/* NUMBER */}
+                      {/* QUESTION */}
+
+                      <div className="min-w-0 flex-1">
+                        {/* CATEGORY */}
+
+                        <p
+                          className="
+                            mb-1.5
+                            text-[7px]
+                            font-bold
+                            uppercase
+                            tracking-[1.7px]
+                            text-[#9a1e2f]
+                          "
+                        >
+                          {faq.category}
+                        </p>
+
+                        {/* TITLE */}
+
+                        <h3
+                          className={`
+                            font-serif
+                            text-[15px]
+                            font-semibold
+                            leading-[1.4]
+                            transition-colors
+                            duration-300
+
+                            sm:text-[17px]
+
+                            ${
+                              isOpen
+                                ? "text-[#9a1e2f]"
+                                : `
+                                    text-[#3b2924]
+                                    group-hover:text-[#9a1e2f]
+                                  `
+                            }
+                          `}
+                        >
+                          {faq.question}
+                        </h3>
+                      </div>
+
+                      {/* =================================
+                          PLUS ICON
+                      ================================== */}
 
                       <div
                         className={`
+                          relative
                           flex
                           h-10
                           w-10
@@ -561,89 +644,80 @@ export default function FAQSection() {
                           items-center
                           justify-center
                           rounded-full
-                          text-[8px]
-                          font-bold
-                          transition-all
-                          duration-300
-
-                          ${
-                            isOpen
-                              ? "bg-[#9a1e2f] text-white"
-                              : "bg-[#f5e8e4] text-[#9a1e2f]"
-                          }
-                        `}
-                      >
-                        {String(index + 1).padStart(2, "0")}
-                      </div>
-
-                      {/* QUESTION */}
-
-                      <div className="flex-1">
-                        <p
-                          className="
-                            mb-1
-                            text-[7px]
-                            font-bold
-                            uppercase
-                            tracking-[1.5px]
-                            text-[#9a1e2f]
-                          "
-                        >
-                          {faq.category}
-                        </p>
-
-                        <h3
-                          className="
-                            font-serif
-                            text-[15px]
-                            font-semibold
-                            leading-[1.4]
-                            text-[#3b2924]
-
-                            sm:text-[17px]
-                          "
-                        >
-                          {faq.question}
-                        </h3>
-                      </div>
-
-                      {/* ARROW */}
-
-                      <div
-                        className={`
-                          flex
-                          h-9
-                          w-9
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-full
                           border
+
                           transition-all
                           duration-300
 
                           ${
                             isOpen
                               ? `
-                                rotate-180
-                                border-[#9a1e2f]
-                                bg-[#9a1e2f]
-                                text-white
-                              `
+                                  rotate-45
+                                  border-[#9a1e2f]
+                                  bg-[#9a1e2f]
+                                  shadow-[0_5px_15px_rgba(154,30,47,0.15)]
+                                `
                               : `
-                                border-[#e6d4ce]
-                                text-[#9a1e2f]
-                              `
+                                  border-[#dfc9c3]
+                                  bg-[#F5E9E5]
+
+                                  group-hover:border-[#9a1e2f]
+                                  group-hover:bg-[#9a1e2f]
+                                `
                           }
                         `}
                       >
-                        <ChevronDown size={14} />
+                        {/* HORIZONTAL */}
+
+                        <span
+                          className={`
+                            absolute
+                            h-[1.5px]
+                            w-[13px]
+                            rounded-full
+
+                            transition-colors
+                            duration-300
+
+                            ${
+                              isOpen
+                                ? "bg-white"
+                                : `
+                                    bg-[#9a1e2f]
+                                    group-hover:bg-white
+                                  `
+                            }
+                          `}
+                        />
+
+                        {/* VERTICAL */}
+
+                        <span
+                          className={`
+                            absolute
+                            h-[13px]
+                            w-[1.5px]
+                            rounded-full
+
+                            transition-colors
+                            duration-300
+
+                            ${
+                              isOpen
+                                ? "bg-white"
+                                : `
+                                    bg-[#9a1e2f]
+                                    group-hover:bg-white
+                                  `
+                            }
+                          `}
+                        />
                       </div>
                     </button>
 
-                    {/* =================================
+                    {/* =====================================
                         ANSWER
-                    ================================== */}
+                    ====================================== */}
 
                     <AnimatePresence initial={false}>
                       {isOpen && (
@@ -672,23 +746,21 @@ export default function FAQSection() {
                         >
                           <div
                             className="
-                              ml-[72px]
-                              mr-4
+                              mx-5
                               border-t
-                              border-[#eadbd5]
+                              border-[#eadbd6]
                               pb-5
                               pt-4
 
-                              sm:ml-[80px]
-                              sm:mr-5
+                              sm:mx-6
                             "
                           >
                             <p
                               className="
-                                max-w-[650px]
+                                max-w-[680px]
                                 text-[10px]
                                 leading-[1.9]
-                                text-[#7e6b65]
+                                text-[#78645e]
 
                                 sm:text-[11px]
                               "
@@ -704,11 +776,25 @@ export default function FAQSection() {
               })}
             </div>
 
-            {/* =========================================
-                BOTTOM CUSTOM CAKE LINK
-            ========================================== */}
+            {/* =============================================
+                CUSTOM CAKE CTA
+            ============================================== */}
 
-            <div
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 15,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                duration: 0.5,
+              }}
               className="
                 mt-4
                 flex
@@ -725,6 +811,8 @@ export default function FAQSection() {
                 sm:justify-between
               "
             >
+              {/* LEFT */}
+
               <div className="flex items-center gap-3">
                 <div
                   className="
@@ -738,7 +826,10 @@ export default function FAQSection() {
                     bg-white/10
                   "
                 >
-                  <CakeSlice size={15} />
+                  <CakeSlice
+                    size={15}
+                    strokeWidth={1.7}
+                  />
                 </div>
 
                 <div>
@@ -767,6 +858,8 @@ export default function FAQSection() {
                 </div>
               </div>
 
+              {/* BUTTON */}
+
               <Link
                 href="/custom-cakes"
                 className="
@@ -782,6 +875,7 @@ export default function FAQSection() {
                   text-[9px]
                   font-bold
                   text-[#9a1e2f]
+
                   transition-all
                   duration-300
 
@@ -800,7 +894,7 @@ export default function FAQSection() {
                   "
                 />
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

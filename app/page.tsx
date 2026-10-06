@@ -1,7 +1,7 @@
 import BakeryCategories from "@/components/home/BakeryCategories";
 import BestSellersSection from "@/components/home/BestSellersSection";
 import CelebrationCakeSection from "@/components/home/CelebrationCakeSection";
-import CTASection from "@/components/home/CTASection";
+import FAQSection from "@/components/home/FAQSection";
 import FreshDeliverySection from "@/components/home/FreshDeliverySection";
 import HeroSection from "@/components/home/HeroSection";
 import HeroStats from "@/components/home/HeroStats";
@@ -18,8 +18,9 @@ export default function Home() {
       <BestSellersSection />
       <FreshDeliverySection />
       <WhyChooseUs />
+      <FAQSection />
       <Testimonials />
-      <CTASection />
+
     </>
   );
 }

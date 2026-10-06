@@ -9,16 +9,10 @@ import {
   ChefHat,
   PackageCheck,
   ArrowRight,
-  Sparkles,
 } from "lucide-react";
-
-/* =====================================================
-   PROCESS DATA
-===================================================== */
 
 const steps = [
   {
-    id: 1,
     number: "01",
     title: "Choose Occasion",
     description:
@@ -26,81 +20,41 @@ const steps = [
     icon: CalendarHeart,
   },
   {
-    id: 2,
     number: "02",
     title: "Customize Your Cake",
     description:
-      "Choose your flavour, weight, shape, theme, colours and add a personal cake message.",
+      "Choose your flavour, weight, shape, colours, theme and personal cake message.",
     icon: Palette,
   },
   {
-    id: 3,
     number: "03",
     title: "Send Your Request",
     description:
-      "Upload a reference image if you have one and submit your complete custom cake request.",
+      "Share your cake idea and upload a reference design if you already have one.",
     icon: Send,
   },
   {
-    id: 4,
     number: "04",
-    title: "We Confirm Details",
+    title: "We Confirm",
     description:
-      "Our bakery team reviews your request and confirms the design, availability and final price.",
+      "Our team reviews your request and confirms the design, availability and final price.",
     icon: MessageCircleMore,
   },
   {
-    id: 5,
     number: "05",
-    title: "We Bake It Fresh",
+    title: "Freshly Baked",
     description:
-      "Once confirmed, our bakers prepare and decorate your cake fresh for your celebration.",
+      "Your custom cake is freshly baked, decorated and prepared with attention to every detail.",
     icon: ChefHat,
   },
   {
-    id: 6,
     number: "06",
     title: "Pickup or Delivery",
     description:
-      "Collect your cake from Alibros Bakery or receive it at your selected delivery address.",
+      "Collect your cake from Alibros Bakery or choose delivery for your special celebration.",
     icon: PackageCheck,
   },
 ];
-
-/* =====================================================
-   ANIMATION
-===================================================== */
-
-const containerVariants = {
-  hidden: {},
-
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
-const stepVariants = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-
-    transition: {
-      duration: 0.55,
-      ease: "easeOut" as const,
-    },
-  },
-};
-
-/* =====================================================
-   COMPONENT
-===================================================== */
 
 export default function HowItWorks() {
   const scrollToForm = () => {
@@ -116,27 +70,26 @@ export default function HowItWorks() {
       className="
         relative
         overflow-hidden
-        bg-[#281916]
+        bg-[#fffaf7]
         py-14
         sm:py-16
         lg:py-20
       "
     >
-      {/* ==========================================
-          BACKGROUND DECORATION
-      =========================================== */}
+      {/* =========================================
+          DECORATION
+      ========================================== */}
 
       <div
         className="
           pointer-events-none
           absolute
-          -left-[170px]
-          -top-[180px]
-          h-[420px]
-          w-[420px]
+          -left-[220px]
+          top-[100px]
+          h-[450px]
+          w-[450px]
           rounded-full
-          border
-          border-white/[0.06]
+          bg-[#f4e5e1]
         "
       />
 
@@ -144,27 +97,13 @@ export default function HowItWorks() {
         className="
           pointer-events-none
           absolute
-          -bottom-[230px]
-          right-[-120px]
-          h-[500px]
-          w-[500px]
+          -right-[180px]
+          bottom-[40px]
+          h-[380px]
+          w-[380px]
           rounded-full
           border
-          border-white/[0.05]
-        "
-      />
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          left-[45%]
-          top-[20%]
-          h-[350px]
-          w-[350px]
-          rounded-full
-          bg-[#9a1e2f]/10
-          blur-[100px]
+          border-[#ead6d0]
         "
       />
 
@@ -179,128 +118,102 @@ export default function HowItWorks() {
           lg:px-12
         "
       >
-        {/* =================================================
-            HEADING
-        ================================================== */}
+        {/* =========================================
+            TOP
+        ========================================== */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 25,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: 0.6,
-          }}
+        <div
           className="
-            mx-auto
             mb-12
-            max-w-[700px]
-            text-center
+            grid
+            grid-cols-1
+            gap-6
+
+            lg:grid-cols-[1fr_420px]
+            lg:items-end
           "
         >
-          {/* LABEL */}
-
-          <div
-            className="
-              mb-4
-              inline-flex
-              items-center
-              gap-2
-              rounded-full
-              border
-              border-white/10
-              bg-white/[0.05]
-              px-4
-              py-2
-            "
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            <Sparkles
-              size={12}
-              className="text-[#e4aaa8]"
-            />
-
-            <span
+            <p
               className="
                 text-[9px]
                 font-bold
                 uppercase
-                tracking-[2.5px]
-                text-[#e4aaa8]
+                tracking-[3px]
+                text-[#9a1e2f]
               "
             >
-              Simple & Easy
-            </span>
-          </div>
+              How It Works
+            </p>
 
-          {/* TITLE */}
+            <h2
+              className="
+                mt-3
+                max-w-[650px]
+                font-serif
+                text-[35px]
+                font-medium
+                leading-[1.08]
+                tracking-[-1px]
+                text-[#281a17]
 
-          <h2
+                sm:text-[43px]
+                lg:text-[50px]
+              "
+            >
+              Your Dream Cake,
+              <br />
+
+              <span className="italic text-[#9a1e2f]">
+                Made Simple.
+              </span>
+            </h2>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.6,
+              delay: 0.1,
+            }}
             className="
-              font-serif
-              text-[35px]
-              font-medium
-              leading-[1.08]
-              tracking-[-1px]
-              text-white
-
-              sm:text-[43px]
-              lg:text-[50px]
-            "
-          >
-            From Your Idea To A{" "}
-            <span className="italic text-[#e5aaa7]">
-              Delicious Cake.
-            </span>
-          </h2>
-
-          {/* DESCRIPTION */}
-
-          <p
-            className="
-              mx-auto
-              mt-4
-              max-w-[550px]
+              max-w-[420px]
               text-[11px]
-              leading-6
-              text-white/55
+              leading-[1.9]
+              text-[#806d67]
 
               sm:text-[12px]
             "
           >
-            Creating your custom cake with Alibros Bakery is
-            simple. Share your idea and we&apos;ll take care
-            of the rest.
-          </p>
-        </motion.div>
+            From your first idea to the final celebration,
+            creating a custom cake with Alibros Bakery is
+            simple and stress-free.
+          </motion.p>
+        </div>
 
-        {/* =================================================
-            DESKTOP TIMELINE
-        ================================================== */}
+        {/* =========================================
+            STEPS
+        ========================================== */}
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.1,
-          }}
+        <div
           className="
-            relative
-            hidden
-            grid-cols-3
-            gap-x-8
-            gap-y-14
+            grid
+            grid-cols-1
+            overflow-hidden
+            rounded-[28px]
+            border
+            border-[#ead8d2]
+            bg-white
 
-            md:grid
+            md:grid-cols-2
+            lg:grid-cols-3
           "
         >
           {steps.map((step, index) => {
@@ -308,311 +221,186 @@ export default function HowItWorks() {
 
             return (
               <motion.div
-                key={step.id}
-                variants={stepVariants}
-                className="group relative"
-              >
-                {/* =====================================
-                    TOP LINE + NUMBER
-                ====================================== */}
+                key={step.number}
+                initial={{
+                  opacity: 0,
+                  y: 25,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                  amount: 0.15,
+                }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.07,
+                }}
+                className="
+                  group
+                  relative
+                  min-h-[250px]
+                  overflow-hidden
+                  border-b
+                  border-[#ead8d2]
+                  p-6
 
-                <div
+                  sm:p-7
+
+                  md:border-r
+
+                  lg:min-h-[270px]
+                  lg:p-8
+
+                  [&:nth-child(2n)]:md:border-r-0
+                  [&:nth-child(3n)]:lg:border-r-0
+
+                  [&:nth-last-child(-n+2)]:md:border-b-0
+                  [&:nth-last-child(-n+3)]:lg:border-b-0
+
+                  transition-colors
+                  duration-300
+                  hover:bg-[#f9efeb]
+                "
+              >
+                {/* HUGE BACKGROUND NUMBER */}
+
+                <span
                   className="
-                    mb-6
-                    flex
-                    items-center
+                    pointer-events-none
+                    absolute
+                    -right-2
+                    -top-7
+
+                    font-serif
+                    text-[100px]
+                    font-bold
+                    leading-none
+                    text-[#9a1e2f]/[0.045]
+
+                    transition-all
+                    duration-500
+
+                    group-hover:-translate-x-2
+                    group-hover:text-[#9a1e2f]/[0.08]
+
+                    lg:text-[120px]
                   "
                 >
-                  {/* NUMBER CIRCLE */}
+                  {step.number}
+                </span>
 
-                  <div
-                    className="
-                      relative
-                      z-20
-                      flex
-                      h-[54px]
-                      w-[54px]
-                      shrink-0
-                      items-center
-                      justify-center
-
-                      rounded-full
-
-                      border
-                      border-[#e5aaa7]/30
-
-                      bg-[#321f1b]
-
-                      transition-all
-                      duration-300
-
-                      group-hover:border-[#e5aaa7]
-                      group-hover:bg-[#9a1e2f]
-                    "
-                  >
-                    <span
-                      className="
-                        font-serif
-                        text-[14px]
-                        font-semibold
-                        text-[#e5aaa7]
-
-                        transition-colors
-                        group-hover:text-white
-                      "
-                    >
-                      {step.number}
-                    </span>
-                  </div>
-
-                  {/* CONNECTOR */}
-
-                  {index !== steps.length - 1 && (
-                    <div
-                      className="
-                        relative
-                        ml-3
-                        h-px
-                        flex-1
-                        overflow-hidden
-                        bg-white/10
-                      "
-                    >
-                      <motion.div
-                        initial={{
-                          width: 0,
-                        }}
-                        whileInView={{
-                          width: "100%",
-                        }}
-                        viewport={{
-                          once: true,
-                        }}
-                        transition={{
-                          duration: 0.8,
-                          delay: index * 0.12,
-                        }}
-                        className="
-                          absolute
-                          inset-y-0
-                          left-0
-                          bg-[#9a1e2f]/70
-                        "
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {/* =====================================
-                    ICON
-                ====================================== */}
+                {/* ICON */}
 
                 <div
                   className="
-                    mb-5
+                    relative
+                    z-10
                     flex
                     h-11
                     w-11
                     items-center
                     justify-center
-
-                    rounded-[13px]
-
-                    bg-white/[0.06]
-                    text-[#e5aaa7]
+                    rounded-full
+                    border
+                    border-[#e5cbc5]
+                    bg-[#fff8f5]
+                    text-[#9a1e2f]
 
                     transition-all
                     duration-300
 
-                    group-hover:-translate-y-1
-                    group-hover:bg-white
-                    group-hover:text-[#9a1e2f]
+                    group-hover:border-[#9a1e2f]
+                    group-hover:bg-[#9a1e2f]
+                    group-hover:text-white
                   "
                 >
                   <Icon
-                    size={19}
+                    size={17}
                     strokeWidth={1.7}
                   />
                 </div>
 
-                {/* =====================================
-                    CONTENT
-                ====================================== */}
+                {/* STEP LABEL */}
+
+                <p
+                  className="
+                    relative
+                    z-10
+                    mt-7
+                    text-[8px]
+                    font-bold
+                    uppercase
+                    tracking-[2px]
+                    text-[#b28d85]
+                  "
+                >
+                  Step {step.number}
+                </p>
+
+                {/* TITLE */}
 
                 <h3
                   className="
+                    relative
+                    z-10
+                    mt-2
                     font-serif
-                    text-[20px]
+                    text-[21px]
                     font-semibold
-                    text-white
+                    text-[#35231f]
 
-                    transition-colors
-                    duration-300
-
-                    group-hover:text-[#efb6b3]
+                    lg:text-[23px]
                   "
                 >
                   {step.title}
                 </h3>
 
+                {/* DESCRIPTION */}
+
                 <p
                   className="
-                    mt-2
-                    max-w-[330px]
+                    relative
+                    z-10
+                    mt-3
+                    max-w-[320px]
                     text-[10px]
                     leading-[1.8]
-                    text-white/50
+                    text-[#806d67]
 
                     lg:text-[11px]
                   "
                 >
                   {step.description}
                 </p>
-              </motion.div>
-            );
-          })}
-        </motion.div>
 
-        {/* =================================================
-            MOBILE TIMELINE
-        ================================================== */}
-
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.05,
-          }}
-          className="
-            relative
-            md:hidden
-          "
-        >
-          {/* VERTICAL LINE */}
-
-          <div
-            className="
-              absolute
-              bottom-[30px]
-              left-[22px]
-              top-[30px]
-              w-px
-              bg-white/10
-            "
-          />
-
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-
-            return (
-              <motion.div
-                key={step.id}
-                variants={stepVariants}
-                className={`
-                  relative
-                  flex
-                  gap-4
-
-                  ${
-                    index !== steps.length - 1
-                      ? "pb-8"
-                      : ""
-                  }
-                `}
-              >
-                {/* NUMBER */}
+                {/* BOTTOM LINE */}
 
                 <div
                   className="
-                    relative
-                    z-10
+                    absolute
+                    bottom-0
+                    left-0
+                    h-[3px]
+                    w-0
+                    bg-[#9a1e2f]
 
-                    flex
-                    h-[45px]
-                    w-[45px]
-                    shrink-0
-                    items-center
-                    justify-center
+                    transition-all
+                    duration-500
 
-                    rounded-full
-
-                    border
-                    border-[#e5aaa7]/30
-
-                    bg-[#321f1b]
-
-                    font-serif
-                    text-[11px]
-                    font-semibold
-                    text-[#e5aaa7]
+                    group-hover:w-full
                   "
-                >
-                  {step.number}
-                </div>
-
-                {/* CONTENT */}
-
-                <div
-                  className="
-                    flex-1
-                    rounded-[18px]
-                    border
-                    border-white/[0.07]
-                    bg-white/[0.04]
-                    p-5
-                  "
-                >
-                  <div
-                    className="
-                      mb-4
-                      flex
-                      h-10
-                      w-10
-                      items-center
-                      justify-center
-                      rounded-[12px]
-                      bg-white/[0.07]
-                      text-[#e5aaa7]
-                    "
-                  >
-                    <Icon
-                      size={17}
-                      strokeWidth={1.7}
-                    />
-                  </div>
-
-                  <h3
-                    className="
-                      font-serif
-                      text-[19px]
-                      font-semibold
-                      text-white
-                    "
-                  >
-                    {step.title}
-                  </h3>
-
-                  <p
-                    className="
-                      mt-2
-                      text-[10px]
-                      leading-[1.8]
-                      text-white/50
-                    "
-                  >
-                    {step.description}
-                  </p>
-                </div>
+                />
               </motion.div>
             );
           })}
-        </motion.div>
+        </div>
 
-        {/* =================================================
+        {/* =========================================
             BOTTOM CTA
-        ================================================== */}
+        ========================================== */}
 
         <motion.div
           initial={{
@@ -623,39 +411,26 @@ export default function HowItWorks() {
             opacity: 1,
             y: 0,
           }}
-          viewport={{
-            once: true,
-          }}
+          viewport={{ once: true }}
           transition={{
-            duration: 0.55,
-            delay: 0.2,
+            duration: 0.6,
           }}
           className="
-            mt-12
+            mt-8
             flex
             flex-col
-            items-center
-            justify-between
             gap-5
-
             rounded-[22px]
-
-            border
-            border-white/[0.08]
-
-            bg-white/[0.04]
-
+            bg-[#281a17]
             px-6
-            py-5
-
-            backdrop-blur-md
+            py-6
 
             sm:flex-row
-            sm:px-7
+            sm:items-center
+            sm:justify-between
+            sm:px-8
           "
         >
-          {/* TEXT */}
-
           <div>
             <p
               className="
@@ -663,60 +438,50 @@ export default function HowItWorks() {
                 font-bold
                 uppercase
                 tracking-[2px]
-                text-[#dca4a1]
+                text-[#e0a5a3]
               "
             >
-              Ready to create?
+              Ready To Create?
             </p>
 
-            <p
+            <h3
               className="
                 mt-1
                 font-serif
-                text-[19px]
+                text-[21px]
                 font-medium
                 text-white
 
-                sm:text-[21px]
+                sm:text-[24px]
               "
             >
-              Start designing your special cake.
-            </p>
+              Let&apos;s make your celebration sweeter.
+            </h3>
           </div>
-
-          {/* BUTTON */}
 
           <button
             type="button"
             onClick={scrollToForm}
             className="
               group
-
               inline-flex
               w-full
-              shrink-0
               items-center
               justify-center
               gap-2
-
               rounded-full
-
               bg-[#9a1e2f]
-
               px-6
-              py-3
-
+              py-3.5
               text-[10px]
               font-semibold
               text-white
-
-              shadow-[0_8px_20px_rgba(0,0,0,0.18)]
 
               transition-all
               duration-300
 
               hover:-translate-y-0.5
-              hover:bg-[#b3263b]
+              hover:bg-[#b32b40]
 
               sm:w-auto
               sm:text-[11px]
@@ -725,7 +490,7 @@ export default function HowItWorks() {
             Design My Cake
 
             <ArrowRight
-              size={13}
+              size={14}
               className="
                 transition-transform
                 duration-300

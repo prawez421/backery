@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+
 import {
   Wheat,
   CookingPot,
@@ -114,7 +115,7 @@ export default function OurProcess() {
       className="
         relative
         overflow-hidden
-        bg-[#281916]
+        bg-[#F5E9E5]
         py-14
         sm:py-16
         lg:py-20
@@ -134,7 +135,7 @@ export default function OurProcess() {
           w-[520px]
           rounded-full
           border
-          border-white/[0.05]
+          border-[#9a1e2f]/[0.06]
         "
       />
 
@@ -148,9 +149,11 @@ export default function OurProcess() {
           w-[560px]
           rounded-full
           border
-          border-white/[0.05]
+          border-[#9a1e2f]/[0.06]
         "
       />
+
+      {/* SOFT CENTER CIRCLE */}
 
       <div
         className="
@@ -158,15 +161,19 @@ export default function OurProcess() {
           absolute
           left-1/2
           top-1/2
-          h-[350px]
-          w-[350px]
+          h-[420px]
+          w-[420px]
           -translate-x-1/2
           -translate-y-1/2
           rounded-full
-          bg-[#9a1e2f]/10
-          blur-[110px]
+          bg-[#ead4cf]/30
+          blur-[100px]
         "
       />
+
+      {/* =================================================
+          MAIN CONTAINER
+      ================================================== */}
 
       <div
         className="
@@ -180,7 +187,7 @@ export default function OurProcess() {
         "
       >
         {/* =================================================
-            SECTION HEADING
+            HEADING
         ================================================== */}
 
         <motion.div
@@ -206,7 +213,7 @@ export default function OurProcess() {
             text-center
           "
         >
-          {/* SMALL LABEL */}
+          {/* LABEL */}
 
           <div
             className="
@@ -216,15 +223,15 @@ export default function OurProcess() {
               gap-2
               rounded-full
               border
-              border-white/10
-              bg-white/[0.05]
+              border-[#dcbdb7]
+              bg-[#fffaf7]/70
               px-4
               py-2
             "
           >
             <Sparkles
               size={12}
-              className="text-[#e8aaa7]"
+              className="text-[#9a1e2f]"
             />
 
             <span
@@ -233,14 +240,14 @@ export default function OurProcess() {
                 font-bold
                 uppercase
                 tracking-[2.5px]
-                text-[#e8aaa7]
+                text-[#9a1e2f]
               "
             >
               Behind Every Bake
             </span>
           </div>
 
-          {/* HEADING */}
+          {/* TITLE */}
 
           <h2
             className="
@@ -249,7 +256,7 @@ export default function OurProcess() {
               font-medium
               leading-[1.08]
               tracking-[-1px]
-              text-white
+              text-[#2f211d]
 
               sm:text-[43px]
               lg:text-[50px]
@@ -258,10 +265,36 @@ export default function OurProcess() {
             From Ingredients To
             <br />
 
-            <span className="italic text-[#e8aaa7]">
+            <span className="italic text-[#9a1e2f]">
               Something Delicious.
             </span>
           </h2>
+
+          {/* SMALL LINE */}
+
+          <div
+            className="
+              mx-auto
+              mt-5
+              flex
+              items-center
+              justify-center
+              gap-2
+            "
+          >
+            <span className="h-px w-7 bg-[#9a1e2f]/35" />
+
+            <span
+              className="
+                h-1.5
+                w-1.5
+                rounded-full
+                bg-[#9a1e2f]
+              "
+            />
+
+            <span className="h-px w-7 bg-[#9a1e2f]/35" />
+          </div>
 
           {/* DESCRIPTION */}
 
@@ -272,7 +305,7 @@ export default function OurProcess() {
               max-w-[560px]
               text-[11px]
               leading-6
-              text-white/50
+              text-[#75615b]
 
               sm:text-[12px]
             "
@@ -284,7 +317,7 @@ export default function OurProcess() {
         </motion.div>
 
         {/* =================================================
-            DESKTOP PROCESS
+            DESKTOP / TABLET PROCESS
         ================================================== */}
 
         <motion.div
@@ -306,10 +339,7 @@ export default function OurProcess() {
             xl:grid-cols-6
           "
         >
-          {/* ===============================================
-              HORIZONTAL LINE
-              Only XL screens
-          ================================================ */}
+          {/* BASE LINE */}
 
           <div
             className="
@@ -319,7 +349,8 @@ export default function OurProcess() {
               top-[39px]
               hidden
               h-px
-              bg-white/10
+              bg-[#cfaaa3]
+
               xl:block
             "
           />
@@ -351,13 +382,12 @@ export default function OurProcess() {
               hidden
               h-px
               bg-[#9a1e2f]
+
               xl:block
             "
           />
 
-          {/* =================================================
-              STEPS
-          ================================================== */}
+          {/* STEPS */}
 
           {processSteps.map((step, index) => {
             const Icon = step.icon;
@@ -372,15 +402,16 @@ export default function OurProcess() {
                   text-center
                 "
               >
-                {/* =========================================
-                    NUMBER / ICON CIRCLE
-                ========================================== */}
+                {/* =====================================
+                    ICON CIRCLE
+                ====================================== */}
 
                 <div
                   className="
                     relative
                     z-20
                     mx-auto
+
                     flex
                     h-[78px]
                     w-[78px]
@@ -390,27 +421,32 @@ export default function OurProcess() {
                     rounded-full
 
                     border
-                    border-white/10
+                    border-[#dfcbc5]
 
-                    bg-[#34211d]
+                    bg-[#fffaf7]
 
-                    shadow-[0_10px_30px_rgba(0,0,0,0.15)]
+                    shadow-[0_12px_35px_rgba(90,50,40,0.07)]
 
                     transition-all
                     duration-300
 
                     group-hover:-translate-y-2
-                    group-hover:border-[#e8aaa7]/40
+                    group-hover:border-[#9a1e2f]
                     group-hover:bg-[#9a1e2f]
+
+                    group-hover:shadow-[0_15px_35px_rgba(154,30,47,0.15)]
                   "
                 >
                   <Icon
                     size={23}
                     strokeWidth={1.6}
                     className="
-                      text-[#e8aaa7]
-                      transition-colors
+                      text-[#9a1e2f]
+
+                      transition-all
                       duration-300
+
+                      group-hover:scale-110
                       group-hover:text-white
                     "
                   />
@@ -432,24 +468,26 @@ export default function OurProcess() {
                       rounded-full
 
                       border
-                      border-white/10
+                      border-[#e2c8c2]
 
-                      bg-[#fff7f4]
+                      bg-[#2f211d]
 
                       px-1
 
                       text-[7px]
                       font-bold
-                      text-[#9a1e2f]
+                      text-white
+
+                      shadow-[0_3px_10px_rgba(60,30,20,0.15)]
                     "
                   >
                     {step.number}
                   </span>
                 </div>
 
-                {/* =========================================
+                {/* =====================================
                     CONTENT
-                ========================================== */}
+                ====================================== */}
 
                 <div className="mt-6">
                   <span
@@ -458,7 +496,7 @@ export default function OurProcess() {
                       font-bold
                       uppercase
                       tracking-[2px]
-                      text-[#d59b98]
+                      text-[#a06f66]
                     "
                   >
                     Step {step.number}
@@ -470,12 +508,12 @@ export default function OurProcess() {
                       font-serif
                       text-[18px]
                       font-semibold
-                      text-white
+                      text-[#35231f]
 
                       transition-colors
                       duration-300
 
-                      group-hover:text-[#edb3b0]
+                      group-hover:text-[#9a1e2f]
 
                       lg:text-[19px]
                     "
@@ -488,9 +526,10 @@ export default function OurProcess() {
                       mx-auto
                       mt-2
                       max-w-[220px]
+
                       text-[9px]
                       leading-[1.8]
-                      text-white/45
+                      text-[#806d67]
 
                       lg:text-[10px]
                     "
@@ -499,7 +538,7 @@ export default function OurProcess() {
                   </p>
                 </div>
 
-                {/* ARROW BETWEEN STEPS */}
+                {/* ARROW */}
 
                 {index !== processSteps.length - 1 && (
                   <ArrowRight
@@ -510,7 +549,7 @@ export default function OurProcess() {
                       top-[33px]
 
                       hidden
-                      text-[#dca29f]
+                      text-[#ad766d]
 
                       xl:block
                     "
@@ -547,11 +586,9 @@ export default function OurProcess() {
               left-[25px]
               top-[40px]
               w-px
-              bg-white/10
+              bg-[#cfaaa3]
             "
           />
-
-          {/* STEPS */}
 
           {processSteps.map((step, index) => {
             const Icon = step.icon;
@@ -572,7 +609,7 @@ export default function OurProcess() {
                   }
                 `}
               >
-                {/* ICON */}
+                {/* MOBILE ICON */}
 
                 <div
                   className="
@@ -589,11 +626,13 @@ export default function OurProcess() {
                     rounded-full
 
                     border
-                    border-[#e8aaa7]/20
+                    border-[#dcbdb7]
 
-                    bg-[#34211d]
+                    bg-[#fffaf7]
 
-                    text-[#e8aaa7]
+                    text-[#9a1e2f]
+
+                    shadow-[0_8px_20px_rgba(90,50,40,0.08)]
                   "
                 >
                   <Icon
@@ -628,7 +667,7 @@ export default function OurProcess() {
                   </span>
                 </div>
 
-                {/* CARD */}
+                {/* MOBILE CARD */}
 
                 <div
                   className="
@@ -637,11 +676,13 @@ export default function OurProcess() {
                     rounded-[18px]
 
                     border
-                    border-white/[0.07]
+                    border-[#dfcbc5]
 
-                    bg-white/[0.04]
+                    bg-[#fffaf7]/80
 
                     p-4
+
+                    shadow-[0_8px_25px_rgba(80,40,30,0.05)]
                   "
                 >
                   <span
@@ -650,7 +691,7 @@ export default function OurProcess() {
                       font-bold
                       uppercase
                       tracking-[2px]
-                      text-[#d69c99]
+                      text-[#9a1e2f]
                     "
                   >
                     {step.shortTitle}
@@ -662,7 +703,7 @@ export default function OurProcess() {
                       font-serif
                       text-[18px]
                       font-semibold
-                      text-white
+                      text-[#35231f]
                     "
                   >
                     {step.title}
@@ -673,7 +714,7 @@ export default function OurProcess() {
                       mt-2
                       text-[9px]
                       leading-[1.8]
-                      text-white/45
+                      text-[#806d67]
                     "
                   >
                     {step.description}
@@ -711,9 +752,11 @@ export default function OurProcess() {
             rounded-[24px]
 
             border
-            border-white/[0.08]
+            border-[#dfcbc5]
 
-            bg-white/[0.04]
+            bg-[#fffaf7]/75
+
+            shadow-[0_15px_40px_rgba(80,40,30,0.05)]
           "
         >
           <div
@@ -732,7 +775,9 @@ export default function OurProcess() {
               lg:justify-between
             "
           >
-            {/* LEFT */}
+            {/* =====================================
+                LEFT MESSAGE
+            ====================================== */}
 
             <div
               className="
@@ -741,6 +786,8 @@ export default function OurProcess() {
                 gap-4
               "
             >
+              {/* ICON */}
+
               <div
                 className="
                   flex
@@ -755,6 +802,8 @@ export default function OurProcess() {
                   bg-[#9a1e2f]
 
                   text-white
+
+                  shadow-[0_8px_20px_rgba(154,30,47,0.15)]
                 "
               >
                 <CakeSlice
@@ -763,6 +812,8 @@ export default function OurProcess() {
                 />
               </div>
 
+              {/* TEXT */}
+
               <div>
                 <p
                   className="
@@ -770,7 +821,7 @@ export default function OurProcess() {
                     font-bold
                     uppercase
                     tracking-[2px]
-                    text-[#dba3a0]
+                    text-[#9a1e2f]
                   "
                 >
                   Our Simple Philosophy
@@ -782,13 +833,14 @@ export default function OurProcess() {
                     font-serif
                     text-[19px]
                     font-medium
-                    text-white
+                    text-[#35231f]
 
                     sm:text-[22px]
                   "
                 >
                   Care in every step.
-                  <span className="italic text-[#e8aaa7]">
+
+                  <span className="italic text-[#9a1e2f]">
                     {" "}
                     Joy in every bite.
                   </span>
@@ -796,7 +848,9 @@ export default function OurProcess() {
               </div>
             </div>
 
-            {/* PROCESS MINI FLOW */}
+            {/* =====================================
+                MINI PROCESS
+            ====================================== */}
 
             <div
               className="
@@ -824,9 +878,12 @@ export default function OurProcess() {
                     <span
                       className="
                         rounded-full
+
                         border
-                        border-white/10
-                        bg-white/[0.05]
+                        border-[#ddc4be]
+
+                        bg-[#F5E9E5]
+
                         px-3
                         py-2
 
@@ -834,7 +891,14 @@ export default function OurProcess() {
                         font-semibold
                         uppercase
                         tracking-[1px]
-                        text-white/60
+                        text-[#725c56]
+
+                        transition-all
+                        duration-300
+
+                        hover:border-[#9a1e2f]
+                        hover:bg-[#9a1e2f]
+                        hover:text-white
                       "
                     >
                       {item}
@@ -843,7 +907,7 @@ export default function OurProcess() {
                     {index !== 3 && (
                       <ArrowRight
                         size={10}
-                        className="text-[#dba3a0]"
+                        className="text-[#9a1e2f]/60"
                       />
                     )}
                   </div>

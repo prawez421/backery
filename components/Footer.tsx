@@ -7,11 +7,9 @@ import {
   ArrowUpRight,
   CakeSlice,
   Clock3,
-  Heart,
   Mail,
   MapPin,
   Phone,
-  Sparkles,
 } from "lucide-react";
 
 import {
@@ -24,11 +22,26 @@ import {
 ===================================================== */
 
 const quickLinks = [
-  { name: "Home", href: "/" },
-  { name: "Menu", href: "/menu" },
-  { name: "About Us", href: "/about" },
-  { name: "Custom Cakes", href: "/custom-cakes" },
-  { name: "Contact Us", href: "/contact" },
+  {
+    name: "Home",
+    href: "/",
+  },
+  {
+    name: "Menu",
+    href: "/menu",
+  },
+  {
+    name: "About Us",
+    href: "/about",
+  },
+  {
+    name: "Custom Cakes",
+    href: "/custom-cakes",
+  },
+  {
+    name: "Contact Us",
+    href: "/contact",
+  },
 ];
 
 /* =====================================================
@@ -38,7 +51,7 @@ const quickLinks = [
 const bakeryLinks = [
   {
     name: "Cakes",
-    href: "/cakes",
+     href: "/menu?category=cakes",
   },
   {
     name: "Cupcakes",
@@ -55,10 +68,6 @@ const bakeryLinks = [
   {
     name: "Breads",
     href: "/menu?category=breads",
-  },
-  {
-    name: "Custom Cakes",
-    href: "/custom-cakes",
   },
 ];
 
@@ -84,10 +93,10 @@ export default function Footer() {
         className="
           pointer-events-none
           absolute
-          -left-[220px]
-          -top-[220px]
-          h-[470px]
-          w-[470px]
+          -right-[180px]
+          -top-[180px]
+          h-[380px]
+          w-[380px]
           rounded-full
           border
           border-white/[0.04]
@@ -98,10 +107,10 @@ export default function Footer() {
         className="
           pointer-events-none
           absolute
-          -bottom-[260px]
-          -right-[200px]
-          h-[520px]
-          w-[520px]
+          -bottom-[200px]
+          -left-[180px]
+          h-[380px]
+          w-[380px]
           rounded-full
           bg-[#9a1e2f]/10
         "
@@ -111,8 +120,8 @@ export default function Footer() {
         className="
           pointer-events-none
           absolute
-          left-[42%]
-          top-[40px]
+          left-[45%]
+          top-[30%]
           h-[200px]
           w-[200px]
           rounded-full
@@ -122,121 +131,13 @@ export default function Footer() {
       />
 
       {/* =================================================
-          TOP BRAND STRIP
-      ================================================== */}
-
-      <div
-        className="
-          relative
-          z-10
-          border-b
-          border-white/[0.07]
-        "
-      >
-        <div
-          className="
-            mx-auto
-            flex
-            max-w-[1400px]
-            flex-col
-            gap-5
-            px-5
-            py-7
-
-            sm:px-8
-
-            md:flex-row
-            md:items-center
-            md:justify-between
-
-            lg:px-12
-          "
-        >
-          {/* LEFT */}
-
-          <div className="flex items-center gap-3">
-            <div
-              className="
-                flex
-                h-9
-                w-9
-                items-center
-                justify-center
-                rounded-full
-                bg-[#9a1e2f]
-                text-white
-              "
-            >
-              <Sparkles size={14} />
-            </div>
-
-            <div>
-              <p
-                className="
-                  text-[7px]
-                  font-bold
-                  uppercase
-                  tracking-[2.5px]
-                  text-[#dca39f]
-                "
-              >
-                Fresh From Our Oven
-              </p>
-
-              <p
-                className="
-                  mt-1
-                  font-serif
-                  text-[14px]
-                  text-white/85
-                "
-              >
-                Made fresh, made with love.
-              </p>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-
-          <Link
-            href="/menu"
-            className="
-              group
-              inline-flex
-              w-fit
-              items-center
-              gap-2
-              text-[9px]
-              font-semibold
-              text-white/60
-              transition-colors
-              duration-300
-              hover:text-white
-            "
-          >
-            Explore Our Menu
-
-            <ArrowUpRight
-              size={12}
-              className="
-                text-[#dca39f]
-                transition-transform
-                duration-300
-                group-hover:rotate-45
-              "
-            />
-          </Link>
-        </div>
-      </div>
-
-      {/* =================================================
           MAIN FOOTER
       ================================================== */}
 
       <motion.div
         initial={{
           opacity: 0,
-          y: 30,
+          y: 20,
         }}
         whileInView={{
           opacity: 1,
@@ -247,7 +148,7 @@ export default function Footer() {
           amount: 0.1,
         }}
         transition={{
-          duration: 0.65,
+          duration: 0.55,
         }}
         className="
           relative
@@ -256,18 +157,18 @@ export default function Footer() {
           grid
           max-w-[1400px]
           grid-cols-1
-          gap-10
+          gap-9
           px-5
-          py-14
+          py-10
 
           sm:px-8
 
           md:grid-cols-2
 
-          lg:grid-cols-[1.45fr_0.75fr_0.8fr_1.15fr]
-          lg:gap-12
+          lg:grid-cols-[1.4fr_0.7fr_0.8fr_1.1fr]
+          lg:gap-10
           lg:px-12
-          lg:py-16
+          lg:py-11
         "
       >
         {/* =================================================
@@ -289,20 +190,25 @@ export default function Footer() {
             <div
               className="
                 flex
-                h-12
-                w-12
+                h-11
+                w-11
                 items-center
                 justify-center
                 rounded-full
                 bg-[#9a1e2f]
                 text-white
-                shadow-[0_8px_25px_rgba(154,30,47,0.25)]
+                shadow-[0_8px_20px_rgba(154,30,47,0.2)]
+
                 transition-transform
                 duration-300
+
                 group-hover:-rotate-6
               "
             >
-              <CakeSlice size={20} />
+              <CakeSlice
+                size={19}
+                strokeWidth={1.7}
+              />
             </div>
 
             {/* BRAND NAME */}
@@ -311,11 +217,13 @@ export default function Footer() {
               <h2
                 className="
                   font-serif
-                  text-[23px]
+                  text-[26px]
                   font-semibold
                   leading-none
                   tracking-[-0.4px]
                   text-white
+
+                  sm:text-[28px]
                 "
               >
                 ALIBROS
@@ -324,7 +232,7 @@ export default function Footer() {
               <p
                 className="
                   mt-1.5
-                  text-[7px]
+                  text-[9px]
                   font-bold
                   uppercase
                   tracking-[4px]
@@ -340,55 +248,23 @@ export default function Footer() {
 
           <p
             className="
-              mt-6
-              max-w-[340px]
-              text-[10px]
-              leading-[1.9]
-              text-white/45
-            "
-          >
-            Artisan cakes, fresh pastries, breads and sweet
-            creations made with quality ingredients and a
-            little extra love for every celebration.
-          </p>
-
-          {/* SMALL TAG */}
-
-          <div
-            className="
               mt-5
-              inline-flex
-              items-center
-              gap-2
-              rounded-full
-              border
-              border-white/[0.08]
-              bg-white/[0.04]
-              px-3.5
-              py-2
+              max-w-[350px]
+              text-[13px]
+              leading-6
+              text-white/50
+
+              sm:text-[14px]
             "
           >
-            <CakeSlice
-              size={11}
-              className="text-[#dca39f]"
-            />
-
-            <span
-              className="
-                text-[7px]
-                font-medium
-                uppercase
-                tracking-[1.4px]
-                text-white/50
-              "
-            >
-              Baked With Love
-            </span>
-          </div>
+            Fresh cakes, pastries, breads and sweet
+            creations made with quality ingredients
+            for every special moment.
+          </p>
 
           {/* SOCIAL MEDIA */}
 
-          <div className="mt-6 flex items-center gap-3">
+          <div className="mt-5 flex items-center gap-3">
             <SocialLink
               href="https://www.instagram.com/"
               label="Instagram"
@@ -415,7 +291,7 @@ export default function Footer() {
         />
 
         {/* =================================================
-            BAKERY
+            OUR BAKERY
         ================================================== */}
 
         <FooterLinks
@@ -432,26 +308,31 @@ export default function Footer() {
             Visit Alibros
           </FooterHeading>
 
-          <div className="mt-6 space-y-5">
-
+          <div className="mt-5 space-y-4">
             {/* LOCATION */}
 
             <ContactItem
-              icon={<MapPin size={14} />}
-              label="Our Location"
+              icon={
+                <MapPin
+                  size={14}
+                  strokeWidth={1.7}
+                />
+              }
+              label="Location"
             >
-              <p>
-                Ranchi, Jharkhand
-                <br />
-                India
-              </p>
+              Ranchi, Jharkhand, India
             </ContactItem>
 
             {/* PHONE */}
 
             <ContactItem
-              icon={<Phone size={14} />}
-              label="Call Us"
+              icon={
+                <Phone
+                  size={14}
+                  strokeWidth={1.7}
+                />
+              }
+              label="Call"
             >
               <a
                 href="tel:+917250076595"
@@ -468,8 +349,13 @@ export default function Footer() {
             {/* EMAIL */}
 
             <ContactItem
-              icon={<Mail size={14} />}
-              label="Email Us"
+              icon={
+                <Mail
+                  size={14}
+                  strokeWidth={1.7}
+                />
+              }
+              label="Email"
             >
               <a
                 href="mailto:prawez713@gmail.com"
@@ -484,17 +370,18 @@ export default function Footer() {
               </a>
             </ContactItem>
 
-            {/* HOURS */}
+            {/* OPENING HOURS */}
 
             <ContactItem
-              icon={<Clock3 size={14} />}
-              label="Opening Hours"
+              icon={
+                <Clock3
+                  size={14}
+                  strokeWidth={1.7}
+                />
+              }
+              label="Hours"
             >
-              <p>
-                Monday - Sunday
-                <br />
-                9:00 AM - 10:00 PM
-              </p>
+              Mon - Sun · 9:00 AM - 10:00 PM
             </ContactItem>
           </div>
         </div>
@@ -520,9 +407,9 @@ export default function Footer() {
             flex-col
             items-center
             justify-between
-            gap-4
+            gap-3
             px-5
-            py-5
+            py-4
             text-center
 
             sm:px-8
@@ -535,42 +422,29 @@ export default function Footer() {
         >
           {/* COPYRIGHT */}
 
-          <p className="text-[9px] text-white/35">
-            © {new Date().getFullYear()} Alibros Bakery. All
-            rights reserved.
-          </p>
-
-          {/* CENTER */}
-
           <p
             className="
-              flex
-              items-center
-              gap-1.5
-              text-[9px]
-              text-white/35
+              text-[11px]
+              text-white/40
+
+              sm:text-[12px]
             "
           >
-            Baked with
-
-            <Heart
-              size={10}
-              fill="currentColor"
-              className="text-[#b52a3d]"
-            />
-
-            for every celebration.
+            © {new Date().getFullYear()} Alibros Bakery.
+            All rights reserved.
           </p>
 
-          {/* LEGAL */}
+          {/* LEGAL LINKS */}
 
           <div
             className="
               flex
               items-center
-              gap-5
-              text-[9px]
-              text-white/35
+              gap-4
+              text-[11px]
+              text-white/40
+
+              sm:text-[12px]
             "
           >
             <Link
@@ -583,6 +457,15 @@ export default function Footer() {
             >
               Privacy Policy
             </Link>
+
+            <span
+              className="
+                h-1
+                w-1
+                rounded-full
+                bg-white/20
+              "
+            />
 
             <Link
               href="/terms"
@@ -611,16 +494,30 @@ function FooterHeading({
   children: React.ReactNode;
 }) {
   return (
-    <h3
-      className="
-        font-serif
-        text-[16px]
-        font-semibold
-        text-white
-      "
-    >
-      {children}
-    </h3>
+    <div>
+      <h3
+        className="
+          font-serif
+          text-[18px]
+          font-semibold
+          text-white
+
+          sm:text-[19px]
+        "
+      >
+        {children}
+      </h3>
+
+      <div
+        className="
+          mt-2
+          h-[2px]
+          w-7
+          rounded-full
+          bg-[#9a1e2f]
+        "
+      />
+    </div>
   );
 }
 
@@ -640,9 +537,18 @@ function FooterLinks({
 }) {
   return (
     <div>
-      <FooterHeading>{title}</FooterHeading>
+      <FooterHeading>
+        {title}
+      </FooterHeading>
 
-      <div className="mt-6 flex flex-col gap-3">
+      <div
+        className="
+          mt-5
+          flex
+          flex-col
+          gap-3
+        "
+      >
         {links.map((link) => (
           <Link
             key={link.name}
@@ -653,22 +559,31 @@ function FooterLinks({
               w-fit
               items-center
               gap-1.5
-              text-[10px]
-              text-white/45
+
+              text-[13px]
+              font-medium
+              text-white/55
+
               transition-colors
               duration-300
+
               hover:text-[#e8aaa7]
+
+              sm:text-[14px]
             "
           >
             {link.name}
 
             <ArrowUpRight
-              size={10}
+              size={12}
+              strokeWidth={1.7}
               className="
                 -translate-x-1
                 opacity-0
+
                 transition-all
                 duration-300
+
                 group-hover:translate-x-0
                 group-hover:opacity-100
               "
@@ -702,6 +617,8 @@ function ContactItem({
         gap-3
       "
     >
+      {/* ICON */}
+
       <div
         className="
           mt-[2px]
@@ -712,8 +629,10 @@ function ContactItem({
           items-center
           justify-center
           rounded-full
+
           bg-[#9a1e2f]/20
           text-[#e8aaa7]
+
           transition-all
           duration-300
 
@@ -724,24 +643,33 @@ function ContactItem({
         {icon}
       </div>
 
+      {/* CONTENT */}
+
       <div>
+        {/* LABEL */}
+
         <p
           className="
-            text-[8px]
+            text-[10px]
+            font-medium
             uppercase
             tracking-[1px]
-            text-white/30
+            text-white/35
           "
         >
           {label}
         </p>
 
+        {/* VALUE */}
+
         <div
           className="
             mt-1
-            text-[10px]
+            text-[12px]
             leading-5
-            text-white/60
+            text-white/65
+
+            sm:text-[13px]
           "
         >
           {children}
@@ -772,7 +700,7 @@ function SocialLink({
       aria-label={label}
       title={label}
       whileHover={{
-        y: -3,
+        y: -2,
         scale: 1.04,
       }}
       whileTap={{
@@ -785,10 +713,13 @@ function SocialLink({
         items-center
         justify-center
         rounded-full
+
         border
         border-white/10
+
         bg-white/[0.04]
-        text-white/55
+        text-white/60
+
         transition-colors
         duration-300
 

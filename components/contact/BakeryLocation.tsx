@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+
 import {
   ArrowUpRight,
-  CakeSlice,
   Clock3,
   MapPin,
   Navigation,
@@ -20,12 +20,15 @@ export default function BakeryLocation() {
         relative
         overflow-hidden
         bg-[#f7efeb]
-        py-14
-        sm:py-16
-        lg:py-20
+        py-12
+        sm:py-14
+        lg:py-16
       "
     >
-      {/* BACKGROUND DECORATION */}
+      {/* =========================================
+          BACKGROUND DECORATION
+      ========================================== */}
+
       <div
         className="
           pointer-events-none
@@ -65,13 +68,13 @@ export default function BakeryLocation() {
           lg:px-12
         "
       >
-        {/* =================================================
+        {/* =========================================
             SECTION HEADING
-        ================================================== */}
+        ========================================== */}
 
         <div
           className="
-            mb-10
+            mb-8
             grid
             grid-cols-1
             gap-5
@@ -116,28 +119,28 @@ export default function BakeryLocation() {
                   text-[#9a1e2f]
                 "
               >
-                Find Our Bakery
+                Find Our Location
               </span>
             </div>
 
             <h2
               className="
                 font-serif
-                text-[35px]
+                text-[34px]
                 font-medium
                 leading-[1.08]
                 tracking-[-1px]
                 text-[#281b18]
 
-                sm:text-[43px]
-                lg:text-[50px]
+                sm:text-[40px]
+                lg:text-[46px]
               "
             >
               Come Say Hello,
               <br />
 
               <span className="italic text-[#9a1e2f]">
-                We&apos;ll Handle The Sweet Part.
+                We&apos;d Love To Meet You.
               </span>
             </h2>
           </motion.div>
@@ -164,37 +167,32 @@ export default function BakeryLocation() {
               lg:text-[13px]
             "
           >
-            Visit Alibros Bakery for freshly baked cakes,
-            pastries and treats. Use the location details below
-            to plan your visit.
+            Visit Alibros Infotech Pvt Ltd. Use the map below
+            to find our location and plan your visit.
           </motion.p>
         </div>
 
-        {/* =================================================
+        {/* =========================================
             LOCATION CARD
-        ================================================== */}
+        ========================================== */}
 
         <div
           className="
             grid
             grid-cols-1
             overflow-hidden
-
             rounded-[30px]
-
             border
             border-[#e5d4ce]
-
             bg-white
-
             shadow-[0_18px_55px_rgba(70,30,30,0.07)]
 
             lg:grid-cols-[1.25fr_0.75fr]
           "
         >
-          {/* =================================================
-              LEFT - MAP STYLE AREA
-          ================================================== */}
+          {/* =====================================
+              LEFT - REAL GOOGLE MAP
+          ====================================== */}
 
           <motion.div
             initial={{
@@ -214,359 +212,33 @@ export default function BakeryLocation() {
             }}
             className="
               relative
-              min-h-[390px]
+              min-h-[380px]
               overflow-hidden
               bg-[#eee6e1]
 
-              sm:min-h-[450px]
-              lg:min-h-[570px]
+              sm:min-h-[430px]
+              lg:min-h-[520px]
             "
           >
-            {/* =========================================
-                MAP BACKGROUND PATTERN
-
-                Isko baad me real Google Map iframe
-                se replace kar sakte ho.
-            ========================================== */}
-
-            <div className="absolute inset-0 bg-[#eee8e4]" />
-
-            {/* ROAD LINES */}
-
-            <div
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3659.693720091569!2d85.46547937388229!3d23.471509899428707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f4fb0072937b57%3A0xb54354dd2dfbc4be!2sAlibros%20Infotech%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1791264639978!5m2!1sen!2sin"
+              title="Alibros Infotech Pvt Ltd Location"
               className="
                 absolute
-                -left-[10%]
-                top-[20%]
-                h-[42px]
-                w-[125%]
-                rotate-[8deg]
-                bg-white/80
+                inset-0
+                h-full
+                w-full
+                border-0
               "
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
             />
-
-            <div
-              className="
-                absolute
-                -left-[10%]
-                top-[58%]
-                h-[32px]
-                w-[125%]
-                -rotate-[12deg]
-                bg-white/70
-              "
-            />
-
-            <div
-              className="
-                absolute
-                left-[22%]
-                top-[-15%]
-                h-[130%]
-                w-[28px]
-                rotate-[15deg]
-                bg-white/65
-              "
-            />
-
-            <div
-              className="
-                absolute
-                right-[20%]
-                top-[-10%]
-                h-[125%]
-                w-[36px]
-                -rotate-[7deg]
-                bg-white/60
-              "
-            />
-
-            {/* SMALL STREET LINES */}
-
-            <div
-              className="
-                absolute
-                left-[8%]
-                top-[35%]
-                h-[2px]
-                w-[35%]
-                rotate-[-18deg]
-                bg-[#d8ccc6]
-              "
-            />
-
-            <div
-              className="
-                absolute
-                bottom-[24%]
-                right-[5%]
-                h-[2px]
-                w-[45%]
-                rotate-[15deg]
-                bg-[#d8ccc6]
-              "
-            />
-
-            <div
-              className="
-                absolute
-                right-[30%]
-                top-[12%]
-                h-[35%]
-                w-[2px]
-                rotate-[20deg]
-                bg-[#d8ccc6]
-              "
-            />
-
-            {/* DECORATIVE BLOCKS */}
-
-            <div
-              className="
-                absolute
-                left-[8%]
-                top-[9%]
-                h-[55px]
-                w-[90px]
-                rotate-[-6deg]
-                rounded-[12px]
-                bg-[#ded4ce]
-              "
-            />
-
-            <div
-              className="
-                absolute
-                bottom-[10%]
-                left-[15%]
-                h-[70px]
-                w-[120px]
-                rotate-[8deg]
-                rounded-[15px]
-                bg-[#e1d7d2]
-              "
-            />
-
-            <div
-              className="
-                absolute
-                right-[7%]
-                top-[14%]
-                h-[80px]
-                w-[110px]
-                rotate-[5deg]
-                rounded-[15px]
-                bg-[#e0d6d0]
-              "
-            />
-
-            {/* =========================================
-                LOCATION PIN
-            ========================================== */}
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                scale: 0.5,
-                y: -25,
-              }}
-              whileInView={{
-                opacity: 1,
-                scale: 1,
-                y: 0,
-              }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.55,
-                delay: 0.3,
-                type: "spring",
-              }}
-              className="
-                absolute
-                left-1/2
-                top-1/2
-                z-20
-                -translate-x-1/2
-                -translate-y-1/2
-              "
-            >
-              {/* PULSE */}
-
-              <motion.div
-                animate={{
-                  scale: [1, 1.6, 1],
-                  opacity: [0.25, 0, 0.25],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                }}
-                className="
-                  absolute
-                  left-1/2
-                  top-1/2
-                  h-[90px]
-                  w-[90px]
-                  -translate-x-1/2
-                  -translate-y-1/2
-                  rounded-full
-                  bg-[#9a1e2f]/20
-                "
-              />
-
-              {/* PIN */}
-
-              <div
-                className="
-                  relative
-                  flex
-                  h-[64px]
-                  w-[64px]
-                  items-center
-                  justify-center
-
-                  rounded-full
-
-                  border-[5px]
-                  border-white
-
-                  bg-[#9a1e2f]
-
-                  text-white
-
-                  shadow-[0_12px_35px_rgba(90,25,35,0.3)]
-                "
-              >
-                <CakeSlice size={22} />
-              </div>
-
-              {/* LOCATION LABEL */}
-
-              <div
-                className="
-                  absolute
-                  left-1/2
-                  top-[78px]
-                  w-[180px]
-                  -translate-x-1/2
-
-                  rounded-[14px]
-
-                  bg-[#281916]
-
-                  px-4
-                  py-3
-
-                  text-center
-
-                  shadow-xl
-                "
-              >
-                <p
-                  className="
-                    font-serif
-                    text-[14px]
-                    font-semibold
-                    text-white
-                  "
-                >
-                  Alibros Bakery
-                </p>
-
-                <p
-                  className="
-                    mt-1
-                    text-[7px]
-                    uppercase
-                    tracking-[1.5px]
-                    text-[#e6a8a5]
-                  "
-                >
-                  You&apos;ve Found Us
-                </p>
-              </div>
-            </motion.div>
-
-            {/* TOP MAP BADGE */}
-
-            <div
-              className="
-                absolute
-                left-5
-                top-5
-                z-20
-
-                inline-flex
-                items-center
-                gap-2
-
-                rounded-full
-
-                border
-                border-white
-
-                bg-white/90
-
-                px-4
-                py-2
-
-                shadow-sm
-
-                backdrop-blur-md
-              "
-            >
-              <Navigation
-                size={11}
-                className="text-[#9a1e2f]"
-              />
-
-              <span
-                className="
-                  text-[8px]
-                  font-bold
-                  uppercase
-                  tracking-[1.5px]
-                  text-[#5c4540]
-                "
-              >
-                Bakery Location
-              </span>
-            </div>
-
-            {/* MAP NOTE */}
-
-            <div
-              className="
-                absolute
-                bottom-5
-                left-5
-                z-20
-
-                rounded-[12px]
-
-                border
-                border-white
-
-                bg-white/85
-
-                px-3
-                py-2
-
-                text-[7px]
-                text-[#8a7771]
-
-                shadow-sm
-
-                backdrop-blur-md
-              "
-            >
-              Map preview • Add real Google Map later
-            </div>
           </motion.div>
 
-          {/* =================================================
+          {/* =====================================
               RIGHT - LOCATION DETAILS
-          ================================================== */}
+          ====================================== */}
 
           <motion.div
             initial={{
@@ -588,15 +260,14 @@ export default function BakeryLocation() {
               relative
               overflow-hidden
               bg-[#fffdfb]
-
               px-6
               py-8
 
               sm:px-8
-              sm:py-10
+              sm:py-9
 
               lg:px-9
-              lg:py-11
+              lg:py-10
             "
           >
             {/* DECORATION */}
@@ -624,11 +295,8 @@ export default function BakeryLocation() {
                   inline-flex
                   items-center
                   gap-2
-
                   rounded-full
-
                   bg-[#f5e4e4]
-
                   px-3.5
                   py-2
                 "
@@ -656,19 +324,18 @@ export default function BakeryLocation() {
               <h3
                 className="
                   font-serif
-                  text-[30px]
+                  text-[28px]
                   font-semibold
                   leading-[1.1]
                   text-[#30211d]
-
-                  sm:text-[34px]
+                  sm:text-[32px]
                 "
               >
                 Alibros
                 <br />
 
                 <span className="italic text-[#9a1e2f]">
-                  Bakery.
+                  Infotech Pvt Ltd.
                 </span>
               </h3>
 
@@ -681,25 +348,20 @@ export default function BakeryLocation() {
                   text-[#83706a]
                 "
               >
-                Stop by the bakery, explore our fresh
-                collection and find something delicious for
-                yourself or your next celebration.
+                Use the map to locate us easily. You can also
+                open Google Maps directly to get directions
+                from your current location.
               </p>
 
-              {/* =====================================
+              {/* =================================
                   INFO
-              ====================================== */}
+              ================================== */}
 
-              <div
-                className="
-                  mt-8
-                  space-y-3
-                "
-              >
+              <div className="mt-7 space-y-3">
                 <LocationInfo
                   icon={<MapPin size={16} />}
-                  label="Bakery Address"
-                  value="Add your complete bakery address here"
+                  label="Location"
+                  value="Alibros Infotech Pvt Ltd"
                 />
 
                 <LocationInfo
@@ -711,17 +373,17 @@ export default function BakeryLocation() {
                 <LocationInfo
                   icon={<Clock3 size={16} />}
                   label="Opening Hours"
-                  value="Check our weekly schedule"
+                  value="Monday - Saturday"
                 />
               </div>
 
               {/* DIVIDER */}
 
-              <div className="my-7 h-px bg-[#eadbd5]" />
+              <div className="my-6 h-px bg-[#eadbd5]" />
 
-              {/* =====================================
+              {/* =================================
                   DIRECTIONS
-              ====================================== */}
+              ================================== */}
 
               <div>
                 <p
@@ -744,42 +406,29 @@ export default function BakeryLocation() {
                     text-[#8b7872]
                   "
                 >
-                  Add your Google Maps location link below so
-                  customers can navigate directly to the
-                  bakery.
+                  Open the location in Google Maps and get
+                  directions directly.
                 </p>
 
-                {/* 
-                  IMPORTANT:
-                  "#" ko actual Google Maps location URL
-                  se replace karna.
-                */}
-
                 <Link
-                  href="#"
+                  href="https://www.google.com/maps/search/?api=1&query=Alibros%20Infotech%20Pvt%20Ltd"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="
                     group
                     mt-5
-
                     flex
                     w-full
                     items-center
                     justify-between
-
                     rounded-[16px]
-
                     bg-[#9a1e2f]
-
                     px-5
                     py-4
-
                     text-white
-
                     shadow-[0_10px_25px_rgba(154,30,47,0.16)]
-
                     transition-all
                     duration-300
-
                     hover:-translate-y-0.5
                     hover:bg-[#7e1726]
                   "
@@ -819,11 +468,8 @@ export default function BakeryLocation() {
                       w-9
                       items-center
                       justify-center
-
                       rounded-full
-
                       bg-white/10
-
                       transition-all
                       duration-300
 
@@ -841,46 +487,6 @@ export default function BakeryLocation() {
                     />
                   </span>
                 </Link>
-              </div>
-
-              {/* =====================================
-                  SMALL FOOTER
-              ====================================== */}
-
-              <div
-                className="
-                  mt-5
-
-                  flex
-                  items-center
-                  gap-3
-
-                  rounded-[14px]
-
-                  border
-                  border-[#eadbd5]
-
-                  bg-[#faf4f1]
-
-                  px-4
-                  py-3
-                "
-              >
-                <CakeSlice
-                  size={14}
-                  className="shrink-0 text-[#9a1e2f]"
-                />
-
-                <p
-                  className="
-                    text-[8px]
-                    leading-[1.6]
-                    text-[#806d67]
-                  "
-                >
-                  Visiting for a custom cake? Contact the
-                  bakery beforehand for availability.
-                </p>
               </div>
             </div>
           </motion.div>
@@ -910,17 +516,12 @@ function LocationInfo({
         flex
         items-center
         gap-4
-
         rounded-[16px]
-
         border
         border-[#eadbd5]
-
         bg-[#fffaf7]
-
         px-4
         py-3.5
-
         transition-all
         duration-300
 
@@ -936,13 +537,9 @@ function LocationInfo({
           shrink-0
           items-center
           justify-center
-
           rounded-[12px]
-
           bg-[#f3dfe0]
-
           text-[#9a1e2f]
-
           transition-all
           duration-300
 
